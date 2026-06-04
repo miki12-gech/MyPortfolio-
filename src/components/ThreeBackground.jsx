@@ -7,295 +7,255 @@ const ThreeBackground = () => {
   useEffect(() => {
     if (!canvasRef.current) return;
 
-    // --- Scene Setup ---
     const scene = new THREE.Scene();
-    
-    // Camera
-    const camera = new THREE.PerspectiveCamera(
-      60,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    );
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = 35;
 
-    // Renderer
-    const renderer = new THREE.WebGLRenderer({
-      canvas: canvasRef.current,
-      alpha: true,
-      antialias: true
-    });
+    const renderer = new THREE.WebGLRenderer({ canvas: canvasRef.current, alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // --- Particles Construction ---
-    const particleCount = 700;
-    const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-    const colors = new Float32Array(particleCount * 3);
-    const initialSpeeds = [];
-
-    // Colors: Yellow (#FFD600), White (#FFFFFF), Warm Light Brown (#A1887F), Deep Bronze (#8D6E63)
-    const colorPalette = [
-      new THREE.Color('#FFD600'), // Yellow
-      new THREE.Color('#FFFFFF'), // White
-      new THREE.Color('#A1887F'), // Sand Brown
-      new THREE.Color('#FFC107')  // Golden Yellow
+    // ─── SYMBOL SETS ─────────────────────────────────────────────────────────
+    // Orthodox Ge'ez spiritual symbols
+    const orthodoxSymbols = [
+      { char: '✝',  color: '#FFD600', size: 28, glow: '#FFD600' },
+      { char: 'ሀ',  color: '#FFFFFF', size: 24, glow: '#FFD600' },
+      { char: 'ለ',  color: '#D4CDC5', size: 22, glow: '#FFD600' },
+      { char: 'ሐ',  color: '#FFFFFF', size: 22, glow: '#FFD600' },
+      { char: 'መ',  color: '#D4CDC5', size: 22, glow: '#FFD600' },
+      { char: 'ዘ',  color: '#FFFFFF', size: 22, glow: '#FFD600' },
+      { char: 'ዐ',  color: '#D4CDC5', size: 22, glow: '#FFD600' },
+      { char: 'ጸ',  color: '#FFFFFF', size: 22, glow: '#FFD600' },
+      { char: '⛪',  color: '#FFD600', size: 20, glow: '#FFD600' },
     ];
 
-    for (let i = 0; i < particleCount; i++) {
-      // Scatter in a cylinder or wide sphere
-      const x = (Math.random() - 0.5) * 80;
-      const y = (Math.random() - 0.5) * 80;
-      const z = (Math.random() - 0.5) * 60 - 20;
+    // Software / coding symbols
+    const codeSymbols = [
+      { char: '</>',   color: '#FFD600', size: 16, glow: '#FFD600' },
+      { char: '{}',    color: '#FFFFFF', size: 20, glow: '#88CFFF' },
+      { char: '=>',    color: '#FFD600', size: 18, glow: '#FFD600' },
+      { char: '//',    color: '#8E8076', size: 16, glow: '#FFFFFF' },
+      { char: '&&',    color: '#FFFFFF', size: 18, glow: '#88CFFF' },
+      { char: '01',    color: '#FFD600', size: 16, glow: '#FFD600' },
+      { char: 'fn()',  color: '#D4CDC5', size: 14, glow: '#FFFFFF' },
+      { char: '#!',    color: '#FFFFFF', size: 18, glow: '#88CFFF' },
+      { char: '[]',    color: '#FFD600', size: 18, glow: '#FFD600' },
+      { char: '::',    color: '#8E8076', size: 16, glow: '#FFFFFF' },
+    ];
 
-      positions[i * 3] = x;
-      positions[i * 3 + 1] = y;
-      positions[i * 3 + 2] = z;
+    const allSymbols = [...orthodoxSymbols, ...codeSymbols];
 
-      // Select random color from palette
-      const chosenColor = colorPalette[Math.floor(Math.random() * colorPalette.length)];
-      colors[i * 3] = chosenColor.r;
-      colors[i * 3 + 1] = chosenColor.g;
-      colors[i * 3 + 2] = chosenColor.b;
-
-      // Speeds for float animation
-      initialSpeeds.push({
-        x: (Math.random() - 0.5) * 0.02,
-        y: (Math.random() - 0.5) * 0.02 + 0.015, // Drift slightly upwards
-        z: (Math.random() - 0.5) * 0.01,
-        ampX: Math.random() * 2,
-        ampY: Math.random() * 2,
-        freq: Math.random() * 0.005 + 0.002,
-        phase: Math.random() * Math.PI * 2
-      });
-    }
-
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-    // Create a circular glowing particle texture programmatically
-    const createParticleTexture = () => {
+    // ─── BUILD ONE SPRITE TEXTURE PER SYMBOL ─────────────────────────────────
+    const makeGlyphTexture = ({ char, color, size, glow }) => {
       const canvas = document.createElement('canvas');
-      canvas.width = 16;
-      canvas.height = 16;
+      canvas.width = 80; canvas.height = 80;
       const ctx = canvas.getContext('2d');
-      const gradient = ctx.createRadialGradient(8, 8, 0, 8, 8, 8);
-      gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-      gradient.addColorStop(0.3, 'rgba(255, 255, 255, 0.8)');
-      gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, 16, 16);
-      return new THREE.CanvasTexture(canvas);
+
+      // Radial glow halo
+      const grad = ctx.createRadialGradient(40, 40, 0, 40, 40, 38);
+      grad.addColorStop(0,   `${glow}44`);
+      grad.addColorStop(0.5, `${glow}11`);
+      grad.addColorStop(1,   `${glow}00`);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 80, 80);
+
+      // Glow pass
+      ctx.font = `bold ${size}px "Courier New", monospace, serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.shadowColor = glow;
+      ctx.shadowBlur = 12;
+      ctx.fillStyle = color;
+      ctx.fillText(char, 40, 40);
+
+      // Crisp top pass
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = color;
+      ctx.fillText(char, 40, 40);
+
+      const tex = new THREE.CanvasTexture(canvas);
+      tex.minFilter = THREE.LinearFilter;
+      return tex;
     };
 
-    const particleTexture = createParticleTexture();
+    // ─── CREATE ONE PARTICLE GROUP PER SYMBOL ────────────────────────────────
+    const particlesPerGroup = 45;
+    const particleSystems = [];
 
-    const material = new THREE.PointsMaterial({
-      size: 0.45,
-      map: particleTexture,
-      transparent: true,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-      vertexColors: true
+    allSymbols.forEach((sym) => {
+      const tex = makeGlyphTexture(sym);
+      const geo = new THREE.BufferGeometry();
+      const positions = new Float32Array(particlesPerGroup * 3);
+      const speeds = [];
+
+      for (let i = 0; i < particlesPerGroup; i++) {
+        positions[i * 3]     = (Math.random() - 0.5) * 95;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 95;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 65 - 20;
+
+        speeds.push({
+          vy:    0.008 + Math.random() * 0.012,
+          swayX: (Math.random() - 0.5) * 0.008,
+          freq:  Math.random() * 0.004 + 0.002,
+          phase: Math.random() * Math.PI * 2
+        });
+      }
+
+      geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+      const mat = new THREE.PointsMaterial({
+        size: 1.8,
+        map: tex,
+        transparent: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        opacity: 0.82,
+      });
+
+      const points = new THREE.Points(geo, mat);
+      scene.add(points);
+      particleSystems.push({ points, geo, mat, tex, speeds });
     });
 
-    const particleSystem = new THREE.Points(geometry, material);
-    scene.add(particleSystem);
-
-    // --- Interactive Mouse Particle Bursts ---
-    const burstCount = 100;
-    const burstGeometry = new THREE.BufferGeometry();
-    const burstPositions = new Float32Array(burstCount * 3);
-    const burstColors = new Float32Array(burstCount * 3);
-    const burstVelocities = [];
-
-    // Fill hidden burst particles
-    for (let i = 0; i < burstCount; i++) {
-      burstPositions[i * 3] = 9999; // Keep them hidden out of screen
-      burstPositions[i * 3 + 1] = 9999;
-      burstPositions[i * 3 + 2] = 9999;
-
-      const burstColor = new THREE.Color('#FFD600');
-      burstColors[i * 3] = burstColor.r;
-      burstColors[i * 3 + 1] = burstColor.g;
-      burstColors[i * 3 + 2] = burstColor.b;
-
-      burstVelocities.push({ x: 0, y: 0, z: 0 });
-    }
-
-    burstGeometry.setAttribute('position', new THREE.BufferAttribute(burstPositions, 3));
-    burstGeometry.setAttribute('color', new THREE.BufferAttribute(burstColors, 3));
-
-    const burstMaterial = new THREE.PointsMaterial({
-      size: 0.6,
-      map: particleTexture,
-      transparent: true,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-      vertexColors: true
+    // ─── CLICK BURST — golden crosses + </> signs ────────────────────────────
+    const burstSymbols = ['✝', '</>', '{}', '=>', 'ጸ'];
+    const burstSystems = burstSymbols.map((char) => {
+      const color = char === '✝' || char === 'ጸ' ? '#FFD600' : '#FFFFFF';
+      const tex = makeGlyphTexture({ char, color, size: 22, glow: '#FFD600' });
+      const bCount = 20;
+      const geo = new THREE.BufferGeometry();
+      const pos = new Float32Array(bCount * 3);
+      for (let i = 0; i < bCount; i++) {
+        pos[i * 3] = 9999; pos[i * 3 + 1] = 9999; pos[i * 3 + 2] = 9999;
+      }
+      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      const mat = new THREE.PointsMaterial({
+        size: 2.2, map: tex, transparent: true,
+        blending: THREE.AdditiveBlending, depthWrite: false
+      });
+      const points = new THREE.Points(geo, mat);
+      scene.add(points);
+      return { points, geo, mat, tex, bCount, vels: Array.from({ length: bCount }, () => ({ x: 0, y: 0, z: 0 })) };
     });
 
-    const burstSystem = new THREE.Points(burstGeometry, burstMaterial);
-    scene.add(burstSystem);
-
-    let activeBurstIndex = 0;
     let burstAge = 0;
 
-    // Trigger click explosion
-    const triggerExplosion = (screenX, screenY) => {
-      // Project 2D coordinates back to 3D space
-      const vector = new THREE.Vector3(
-        (screenX / window.innerWidth) * 2 - 1,
-        -(screenY / window.innerHeight) * 2 + 1,
+    const triggerBurst = (sx, sy) => {
+      const v = new THREE.Vector3(
+        (sx / window.innerWidth) * 2 - 1,
+        -(sy / window.innerHeight) * 2 + 1,
         0.5
       );
-      vector.unproject(camera);
-      const dir = vector.sub(camera.position).normalize();
-      const distance = -camera.position.z / dir.z; // Target the plane z=0
-      const pos = camera.position.clone().add(dir.multiplyScalar(distance));
+      v.unproject(camera);
+      const dir = v.sub(camera.position).normalize();
+      const dist = -camera.position.z / dir.z;
+      const pos = camera.position.clone().add(dir.multiplyScalar(dist));
 
-      const posArray = burstGeometry.attributes.position.array;
-      
-      // Update burst positions and give them velocities
-      for (let i = 0; i < burstCount; i++) {
-        posArray[i * 3] = pos.x + (Math.random() - 0.5) * 0.5;
-        posArray[i * 3 + 1] = pos.y + (Math.random() - 0.5) * 0.5;
-        posArray[i * 3 + 2] = pos.z + (Math.random() - 0.5) * 0.5;
-
-        // Spherical explosion velocities
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.acos((Math.random() * 2) - 1);
-        const speed = Math.random() * 0.18 + 0.08;
-
-        burstVelocities[i] = {
-          x: Math.sin(phi) * Math.cos(theta) * speed,
-          y: Math.sin(phi) * Math.sin(theta) * speed,
-          z: Math.cos(phi) * speed
-        };
-      }
-      
-      burstGeometry.attributes.position.needsUpdate = true;
-      burstAge = 1.0; // Reset burst age (1.0 to 0.0 opacity)
+      burstSystems.forEach(bs => {
+        const pa = bs.geo.attributes.position.array;
+        for (let i = 0; i < bs.bCount; i++) {
+          pa[i * 3]     = pos.x + (Math.random() - 0.5) * 0.4;
+          pa[i * 3 + 1] = pos.y + (Math.random() - 0.5) * 0.4;
+          pa[i * 3 + 2] = pos.z;
+          const theta = Math.random() * Math.PI * 2;
+          const phi = Math.acos(Math.random() * 2 - 1);
+          const spd = 0.06 + Math.random() * 0.18;
+          bs.vels[i] = {
+            x: Math.sin(phi) * Math.cos(theta) * spd,
+            y: Math.sin(phi) * Math.sin(theta) * spd,
+            z: Math.cos(phi) * spd
+          };
+        }
+        bs.geo.attributes.position.needsUpdate = true;
+        bs.mat.opacity = 1.0;
+      });
+      burstAge = 1.0;
     };
 
-    // --- Interactive Mouse Move Parallax ---
-    let mouseX = 0;
-    let mouseY = 0;
-    let targetMouseX = 0;
-    let targetMouseY = 0;
-
-    const handleMouseMove = (event) => {
-      targetMouseX = (event.clientX / window.innerWidth) - 0.5;
-      targetMouseY = (event.clientY / window.innerHeight) - 0.5;
+    // ─── MOUSE ───────────────────────────────────────────────────────────────
+    let mx = 0, my = 0, txm = 0, tym = 0;
+    const onMove = e => {
+      txm = e.clientX / window.innerWidth - 0.5;
+      tym = e.clientY / window.innerHeight - 0.5;
     };
+    const onClick = e => triggerBurst(e.clientX, e.clientY);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('click', onClick);
 
-    const handleMouseClick = (event) => {
-      triggerExplosion(event.clientX, event.clientY);
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('click', handleMouseClick);
-
-    // --- Animation Loop ---
-    let time = 0;
-    let animationFrameId;
+    // ─── ANIMATE ─────────────────────────────────────────────────────────────
+    let t = 0, rafId;
 
     const animate = () => {
-      time += 0.5;
+      t += 0.5;
+      mx += (txm - mx) * 0.06;
+      my += (tym - my) * 0.06;
 
-      // Smooth mouse interpolation
-      mouseX += (targetMouseX - mouseX) * 0.08;
-      mouseY += (targetMouseY - mouseY) * 0.08;
+      particleSystems.forEach(({ points, geo, speeds }) => {
+        points.rotation.y = mx * 0.28;
+        points.rotation.x = my * 0.28;
+        points.rotation.z += 0.00018;
 
-      // Parallax rotation of the whole system
-      particleSystem.rotation.y = mouseX * 0.3;
-      particleSystem.rotation.x = mouseY * 0.3;
-      
-      // Gentle constant rotation
-      particleSystem.rotation.z += 0.0003;
-
-      // Update base particles positions (drift & float)
-      const posArray = geometry.attributes.position.array;
-      for (let i = 0; i < particleCount; i++) {
-        const speed = initialSpeeds[i];
-        
-        // Upward flow drift
-        posArray[i * 3 + 1] += speed.y;
-        
-        // Wave-like floating on X/Z axis
-        posArray[i * 3] += Math.sin(time * speed.freq + speed.phase) * 0.008;
-        posArray[i * 3 + 2] += Math.cos(time * speed.freq + speed.phase) * 0.005;
-
-        // Reset if particles go out of screen top
-        if (posArray[i * 3 + 1] > 40) {
-          posArray[i * 3 + 1] = -40;
-          posArray[i * 3] = (Math.random() - 0.5) * 80;
-        }
-      }
-      geometry.attributes.position.needsUpdate = true;
-
-      // Update burst system if active
-      if (burstAge > 0) {
-        burstAge -= 0.015;
-        const bPosArray = burstGeometry.attributes.position.array;
-        
-        for (let i = 0; i < burstCount; i++) {
-          const vel = burstVelocities[i];
-          bPosArray[i * 3] += vel.x;
-          bPosArray[i * 3 + 1] += vel.y;
-          bPosArray[i * 3 + 2] += vel.z;
-
-          // Apply drag
-          vel.x *= 0.95;
-          vel.y *= 0.95;
-          vel.z *= 0.95;
-        }
-        
-        burstMaterial.opacity = Math.max(0, burstAge);
-        burstGeometry.attributes.position.needsUpdate = true;
-      } else {
-        // Move burst out of bounds when finished to avoid processing
-        const bPosArray = burstGeometry.attributes.position.array;
-        if (bPosArray[0] !== 9999) {
-          for (let i = 0; i < burstCount; i++) {
-            bPosArray[i * 3] = 9999;
-            bPosArray[i * 3 + 1] = 9999;
-            bPosArray[i * 3 + 2] = 9999;
+        const pa = geo.attributes.position.array;
+        for (let i = 0; i < particlesPerGroup; i++) {
+          const sp = speeds[i];
+          pa[i * 3 + 1] += sp.vy;
+          pa[i * 3]     += Math.sin(t * sp.freq + sp.phase) * 0.004;
+          if (pa[i * 3 + 1] > 48) {
+            pa[i * 3 + 1] = -48;
+            pa[i * 3]     = (Math.random() - 0.5) * 95;
           }
-          burstGeometry.attributes.position.needsUpdate = true;
         }
+        geo.attributes.position.needsUpdate = true;
+      });
+
+      // Burst update
+      if (burstAge > 0) {
+        burstAge -= 0.016;
+        burstSystems.forEach(bs => {
+          const pa = bs.geo.attributes.position.array;
+          for (let i = 0; i < bs.bCount; i++) {
+            pa[i * 3]     += bs.vels[i].x;
+            pa[i * 3 + 1] += bs.vels[i].y;
+            pa[i * 3 + 2] += bs.vels[i].z;
+            bs.vels[i].x *= 0.94;
+            bs.vels[i].y *= 0.94;
+            bs.vels[i].z *= 0.94;
+          }
+          bs.mat.opacity = Math.max(0, burstAge);
+          bs.geo.attributes.position.needsUpdate = true;
+        });
+      } else {
+        burstSystems.forEach(bs => {
+          const pa = bs.geo.attributes.position.array;
+          if (pa[0] !== 9999) {
+            for (let i = 0; i < bs.bCount; i++) {
+              pa[i * 3] = 9999; pa[i * 3 + 1] = 9999; pa[i * 3 + 2] = 9999;
+            }
+            bs.geo.attributes.position.needsUpdate = true;
+          }
+        });
       }
 
       renderer.render(scene, camera);
-      animationFrameId = requestAnimationFrame(animate);
+      rafId = requestAnimationFrame(animate);
     };
-
     animate();
 
-    // --- Responsive Resize ---
-    const handleResize = () => {
+    const onResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     };
+    window.addEventListener('resize', onResize);
 
-    window.addEventListener('resize', handleResize);
-
-    // --- Cleanup ---
+    // ─── CLEANUP ─────────────────────────────────────────────────────────────
     return () => {
-      cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('click', handleMouseClick);
-      window.removeEventListener('resize', handleResize);
-      
-      geometry.dispose();
-      material.dispose();
-      particleTexture.dispose();
-      
-      burstGeometry.dispose();
-      burstMaterial.dispose();
-      
+      cancelAnimationFrame(rafId);
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('click', onClick);
+      window.removeEventListener('resize', onResize);
+      particleSystems.forEach(({ geo, mat, tex }) => { geo.dispose(); mat.dispose(); tex.dispose(); });
+      burstSystems.forEach(({ geo, mat, tex }) => { geo.dispose(); mat.dispose(); tex.dispose(); });
       renderer.dispose();
     };
   }, []);
