@@ -3,6 +3,7 @@ import TiltCard from './TiltCard';
 const skills = [
   { name: "Algorithms & Logic", level: 90, desc: "Data structures, computational complexity, and puzzle solving." },
   { name: "Full-Stack Development", level: 85, desc: "Building end-to-end applications from database layers to client apps." },
+  { name: "Spring Boot & Java", level: 86, desc: "Developing enterprise backend applications, microservices, and robust REST APIs." },
   { name: "React & Modern JS", level: 88, desc: "Creating reactive interfaces, custom state management, and modern ESM modules." },
   { name: "Database Design (SQL/NoSQL)", level: 82, desc: "Structuring schemas, writing complex queries, and modeling for high scale." },
   { name: "API Development", level: 85, desc: "Architecting RESTful services, GraphQL schemas, and secure JSON transports." },

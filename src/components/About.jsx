@@ -122,7 +122,7 @@ const About = () => {
             fontSize: '0.9rem',
             color: 'var(--text-secondary)'
           }}>
-            📍 Based in Mekelle, Ethiopia
+            📍 Based in Addis Ababa, Ethiopia
           </div>
         </TiltCard>
 
