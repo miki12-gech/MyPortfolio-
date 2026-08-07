@@ -1,128 +1,98 @@
-import TiltCard from './TiltCard';
+import { motion } from 'framer-motion';
+import { Database, Server, Layout, Cloud, Shield } from 'lucide-react';
 
-const skills = [
-  { name: "Algorithms & Logic", level: 90, desc: "Data structures, computational complexity, and puzzle solving." },
-  { name: "Full-Stack Development", level: 85, desc: "Building end-to-end applications from database layers to client apps." },
-  { name: "Spring Boot & Java", level: 86, desc: "Developing enterprise backend applications, microservices, and robust REST APIs." },
-  { name: "React & Modern JS", level: 88, desc: "Creating reactive interfaces, custom state management, and modern ESM modules." },
-  { name: "Database Design (SQL/NoSQL)", level: 82, desc: "Structuring schemas, writing complex queries, and modeling for high scale." },
-  { name: "API Development", level: 85, desc: "Architecting RESTful services, GraphQL schemas, and secure JSON transports." },
-  { name: "AI Fundamentals", level: 75, desc: "Integrating cognitive models, embeddings, prompts, and serverless orchestrators." },
-  { name: "System Architecture", level: 80, desc: "Designing distributed patterns, microservices, and server topologies." }
+const skillCategories = [
+  {
+    title: "Backend Engineering",
+    icon: <Server size={24} className="text-primary" />,
+    skills: ["Java", "Spring Boot", "Spring Security", "Hibernate", "REST APIs"]
+  },
+  {
+    title: "Frontend Engineering",
+    icon: <Layout size={24} className="text-primary" />,
+    skills: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Shadcn UI"]
+  },
+  {
+    title: "Database Architecture",
+    icon: <Database size={24} className="text-primary" />,
+    skills: ["PostgreSQL", "MySQL", "Prisma", "Database Migration", "Query Optimization"]
+  },
+  {
+    title: "Cloud & DevOps",
+    icon: <Cloud size={24} className="text-primary" />,
+    skills: ["Docker", "AWS", "CI/CD", "GitHub Actions"]
+  },
+  {
+    title: "AI & Cybersecurity",
+    icon: <Shield size={24} className="text-primary" />,
+    skills: ["Python", "Reinforcement Learning", "RAG Systems", "Android Security Testing", "Frida", "Appium"]
+  }
 ];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
+};
 
 const Skills = () => {
   return (
-    <section id="skills" style={{ position: 'relative' }}>
-      {/* Background glow */}
-      <div style={{
-        position: 'absolute',
-        width: '350px',
-        height: '350px',
-        backgroundColor: 'rgba(255, 214, 0, 0.02)',
-        filter: 'blur(130px)',
-        top: '20%',
-        left: '20%',
-        borderRadius: '50%',
-        pointerEvents: 'none'
-      }} />
+    <section id="skills" className="py-24 border-t border-white/5">
+      <div className="max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mb-16"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Technical Architecture</h2>
+          <div className="w-12 h-1 bg-primary rounded"></div>
+          <p className="mt-6 text-muted-foreground text-lg max-w-2xl">
+            A structured breakdown of my technical stack, categorized by domain.
+          </p>
+        </motion.div>
 
-      <span style={{
-        color: 'var(--primary)',
-        textTransform: 'uppercase',
-        fontWeight: 800,
-        fontSize: '0.85rem',
-        letterSpacing: '0.2em',
-        display: 'block',
-        textAlign: 'center',
-        marginBottom: '0.5rem'
-      }}>
-        Capabilities
-      </span>
-      <h2 style={{ 
-        fontSize: '2.8rem', 
-        textAlign: 'center', 
-        marginBottom: '4.5rem',
-        fontFamily: 'var(--font-sans)',
-        textTransform: 'none'
-      }}>
-        Technical Arsenal
-      </h2>
-
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-        gap: '2rem',
-        maxWidth: '1100px',
-        margin: '0 auto'
-      }}>
-        {skills.map((skill) => (
-          <TiltCard 
-            key={skill.name} 
-            className="glass-card"
-            maxTilt={8}
-            style={{
-              padding: '1.8rem',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              gap: '1rem'
-            }}
-          >
-            <div>
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'baseline',
-                marginBottom: '0.5rem'
-              }}>
-                <h3 style={{
-                  fontSize: '1.2rem',
-                  color: '#FFFFFF',
-                  fontFamily: 'var(--font-sans)',
-                  fontWeight: 600
-                }}>
-                  {skill.name}
-                </h3>
-                <span style={{ 
-                  color: 'var(--primary)', 
-                  fontWeight: 800,
-                  fontSize: '1.1rem',
-                  textShadow: '0 0 8px var(--primary-glow)'
-                }}>
-                  {skill.level}%
-                </span>
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          {skillCategories.map((category, index) => (
+            <motion.div
+              key={index}
+              variants={itemVariants}
+              className="glass-panel p-6 rounded-2xl hover:border-primary/50 transition-colors"
+            >
+              <div className="flex items-center gap-4 mb-6">
+                <div className="p-3 bg-white/5 rounded-lg border border-white/10">
+                  {category.icon}
+                </div>
+                <h3 className="text-xl font-semibold">{category.title}</h3>
               </div>
-              <p style={{
-                fontSize: '0.88rem',
-                color: 'var(--text-muted)',
-                lineHeight: '1.5',
-                marginBottom: '1.5rem'
-              }}>
-                {skill.desc}
-              </p>
-            </div>
-            
-            {/* Progress Bar Container */}
-            <div style={{
-              width: '100%',
-              height: '6px',
-              backgroundColor: 'rgba(255, 255, 255, 0.05)',
-              borderRadius: '9999px',
-              overflow: 'hidden',
-              position: 'relative'
-            }}>
-              <div style={{
-                width: `${skill.level}%`,
-                height: '100%',
-                background: 'linear-gradient(90deg, var(--primary), #FFE54C)',
-                borderRadius: '9999px',
-                boxShadow: '0 0 10px var(--primary-glow)',
-                transition: 'width 1.5s cubic-bezier(0.4, 0, 0.2, 1)'
-              }} />
-            </div>
-          </TiltCard>
-        ))}
+              
+              <ul className="space-y-3">
+                {category.skills.map((skill, i) => (
+                  <li key={i} className="flex items-center gap-2 text-muted-foreground">
+                    <span className="w-1 h-1 rounded-full bg-white/30"></span>
+                    {skill}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

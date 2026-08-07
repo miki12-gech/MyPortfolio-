@@ -1,159 +1,74 @@
-import profileImg from '../assets/profile.jpg';
-import ThreeHeroScene from './ThreeHeroScene';
+import { motion } from 'framer-motion';
+import { ArrowRight, FileText } from 'lucide-react';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 const Hero = () => {
   return (
-    <section id="hero" style={{
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingTop: 'var(--nav-height)',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        alignItems: 'center',
-        gap: '4rem',
-        width: '100%',
-        zIndex: 2,
-      }} className="responsive-hero-grid">
+    <section id="hero" className="min-h-screen flex items-center justify-center pt-20 pb-10">
+      <div className="max-w-4xl mx-auto text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-primary font-medium tracking-wide mb-4">MIKIALE GETACHEW</h2>
+        </motion.div>
         
-        {/* Left Side: Typography & CTA */}
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-          textAlign: 'left',
-          gap: '1.8rem',
-        }}>
-          {/* Circular profile avatar */}
-          <div style={{
-            width: '90px',
-            height: '90px',
-            borderRadius: '50%',
-            overflow: 'hidden',
-            border: '3px solid var(--primary)',
-            boxShadow: '0 0 20px var(--primary-glow)',
-            animation: 'fadeInUp 0.8s ease forwards',
-            marginBottom: '0.5rem'
-          }}>
-            <img
-              src={profileImg}
-              alt="Mikiale Getachew"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
-          </div>
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="text-5xl md:text-7xl font-bold tracking-tighter mb-6"
+        >
+          Full-Stack Software Engineer
+          <br className="hidden md:block" />
+          <span className="text-muted-foreground"> | AI & Cybersecurity Systems</span>
+        </motion.h1>
 
-          <div className="animate-fade-in-up">
-            <span style={{
-              color: 'var(--primary)',
-              textTransform: 'uppercase',
-              fontWeight: 800,
-              fontSize: '0.9rem',
-              letterSpacing: '0.2em',
-              display: 'inline-block',
-              marginBottom: '0.5rem'
-            }}>
-              Welcome to my digital space
-            </span>
-            <h1 style={{ 
-              fontSize: '3.5rem', 
-              lineHeight: 1.1, 
-              color: '#FFFFFF',
-              margin: '0.2rem 0'
-            }}>
-              Hi, I'm <span style={{
-                color: 'var(--primary)',
-                textShadow: '0 0 15px rgba(255, 214, 0, 0.2)'
-              }}>Mikiale</span>
-            </h1>
-            <p style={{
-              fontSize: '1.8rem',
-              color: '#FFFFFF',
-              fontWeight: 600,
-              marginTop: '0.5rem',
-              fontFamily: 'var(--font-sans)',
-              letterSpacing: '-0.01em'
-            }}>
-              Software Engineer & Solution Architect
-            </p>
-          </div>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
+        >
+          Building scalable software systems across enterprise applications, artificial intelligence, cybersecurity, and cloud infrastructure.
+        </motion.p>
 
-          <p style={{
-            fontSize: '1.1rem',
-            color: 'var(--text-secondary)',
-            maxWidth: '520px',
-            lineHeight: '1.7',
-            margin: 0
-          }} className="animate-fade-in-up">
-            Designing and building scalable, user-centric digital experiences. Currently sharpening my technical arsenal at Mekelle University.
-          </p>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+        >
+          <a href="#projects" className="group flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 rounded-full font-medium hover:bg-primary/90 transition-all">
+            View Projects
+            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+          </a>
+          <a href="#contact" className="px-8 py-3 rounded-full font-medium border border-white/10 hover:bg-white/5 transition-colors">
+            Contact Me
+          </a>
+        </motion.div>
 
-          <div style={{ 
-            display: 'flex', 
-            gap: '1.2rem',
-            marginTop: '0.5rem'
-          }} className="animate-fade-in-up">
-            <button
-              className="btn"
-              onClick={() => document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })}
-            >
-              Explore My Work
-            </button>
-            <button
-              className="btn-secondary"
-              onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-            >
-              Get in Touch
-            </button>
-          </div>
-        </div>
-
-        {/* Right Side: 3D canvas representation */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'relative',
-        }} className="responsive-hero-3d">
-          <div style={{
-            position: 'absolute',
-            width: '280px',
-            height: '280px',
-            backgroundColor: 'var(--primary-glow)',
-            filter: 'blur(100px)',
-            borderRadius: '50%',
-            zIndex: 1,
-            pointerEvents: 'none'
-          }} />
-          <div style={{ zIndex: 2, width: '100%' }}>
-            <ThreeHeroScene />
-          </div>
-        </div>
-
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="mt-16 flex items-center justify-center gap-6"
+        >
+          <a href="https://github.com" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+            <FaGithub size={24} />
+            <span className="sr-only">GitHub</span>
+          </a>
+          <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+            <FaLinkedin size={24} />
+            <span className="sr-only">LinkedIn</span>
+          </a>
+          <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+            <FileText size={24} />
+            <span className="sr-only">Resume</span>
+          </a>
+        </motion.div>
       </div>
-
-      {/* CSS injection for responsive mobile viewports */}
-      <style>{`
-        @media (max-width: 968px) {
-          .responsive-hero-grid {
-            grid-template-columns: 1fr !important;
-            text-align: center !important;
-            gap: 2rem !important;
-          }
-          .responsive-hero-grid > div {
-            align-items: center !important;
-            text-align: center !important;
-          }
-          .responsive-hero-3d {
-            order: -1 !important;
-            margin-bottom: 1rem;
-          }
-        }
-      `}</style>
     </section>
   );
 };

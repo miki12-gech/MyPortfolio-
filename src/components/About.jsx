@@ -1,140 +1,64 @@
-import TiltCard from './TiltCard';
+import { motion } from 'framer-motion';
 
 const About = () => {
   return (
-    <section id="about" style={{ position: 'relative' }}>
-      {/* Background glow behind About */}
-      <div style={{
-        position: 'absolute',
-        width: '320px',
-        height: '320px',
-        backgroundColor: 'rgba(255, 214, 0, 0.03)',
-        filter: 'blur(120px)',
-        top: '10%',
-        left: '-5%',
-        borderRadius: '50%',
-        pointerEvents: 'none'
-      }} />
+    <section id="about" className="py-24 border-t border-white/5">
+      <div className="max-w-4xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mb-12"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">About Me</h2>
+          <div className="w-12 h-1 bg-primary rounded"></div>
+        </motion.div>
 
-      <span style={{
-        color: 'var(--primary)',
-        textTransform: 'uppercase',
-        fontWeight: 800,
-        fontSize: '0.85rem',
-        letterSpacing: '0.2em',
-        display: 'block',
-        textAlign: 'center',
-        marginBottom: '0.5rem'
-      }}>
-        Background & Focus
-      </span>
-      <h2 style={{ 
-        fontSize: '2.8rem', 
-        textAlign: 'center', 
-        marginBottom: '4rem',
-        fontFamily: 'var(--font-sans)',
-        textTransform: 'none'
-      }}>
-        About Me
-      </h2>
+        <div className="grid md:grid-cols-2 gap-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="space-y-6 text-muted-foreground text-lg"
+          >
+            <p>
+              I am a Full-Stack Software Engineer with a deep focus on building resilient enterprise systems, integrating AI into practical applications, and ensuring robust cybersecurity architectures.
+            </p>
+            <p>
+              My engineering approach bridges the gap between complex backend architectures and intuitive frontend experiences. I specialize in designing systems that scale, from cloud deployments to secure AI-driven analysis platforms.
+            </p>
+            <p>
+              Recently, I've been focused on modernizing legacy hospital management systems and developing AI environments for automated Android security testing.
+            </p>
+          </motion.div>
 
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: '1.2fr 0.8fr',
-        gap: '3rem',
-        alignItems: 'stretch'
-      }} className="responsive-about-grid">
-        
-        {/* Left Side: Story & Philosophy */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <div className="glass-card" style={{ height: '100%' }}>
-            <p style={{ 
-              fontSize: '1.15rem', 
-              color: '#FFFFFF', 
-              lineHeight: '1.8',
-              marginBottom: '1.5rem' 
-            }}>
-              I am a dedicated <strong>Software Engineer</strong> currently sharpening my skills at Mekelle University. 
-              My passion lies in architecting robust digital solutions, building highly optimized backend systems, 
-              and crafting immersive frontend interfaces that users love.
-            </p>
-            <p style={{ 
-              fontSize: '1.1rem', 
-              color: 'var(--text-secondary)', 
-              lineHeight: '1.8',
-              marginBottom: '1.5rem'
-            }}>
-              With a strong problem-solving mindset, I thrive on tackling complex algorithmic challenges and design problems. 
-              I design systems built for scalability, speed, and maintainability.
-            </p>
-            <p style={{ 
-              fontSize: '1.1rem', 
-              color: 'var(--text-secondary)', 
-              lineHeight: '1.8',
-              margin: 0
-            }}>
-              I am constantly exploring the bleeding edge of <strong>Artificial Intelligence</strong>, machine learning integration, and 
-              <strong>Modern Web Engineering</strong> to push the boundaries of what's possible in software design.
-            </p>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="glass-panel p-8 rounded-2xl"
+          >
+            <h3 className="text-xl font-semibold mb-6 text-foreground">Core Competencies</h3>
+            <ul className="space-y-4">
+              {[
+                "Enterprise Systems Architecture",
+                "Full-Stack Web Development",
+                "AI Integration & Automation",
+                "Cybersecurity Research & Testing",
+                "Cloud Deployment & DevOps"
+              ].map((competency, i) => (
+                <li key={i} className="flex items-center gap-3 text-muted-foreground">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>
+                  {competency}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
         </div>
-
-        {/* Right Side: Quick facts inside a 3D Tilt Card */}
-        <TiltCard className="glass-card" style={{ 
-          borderLeft: '4px solid var(--primary)',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          gap: '2rem'
-        }}>
-          <div>
-            <h3 style={{ 
-              fontSize: '1.5rem', 
-              color: 'var(--primary)',
-              marginBottom: '1.2rem',
-              letterSpacing: '-0.01em'
-            }}>
-              Core Tenets
-            </h3>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
-              <div>
-                <h4 style={{ fontSize: '1.05rem', color: '#FFFFFF', marginBottom: '0.2rem' }}>01 / Clean Architecture</h4>
-                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Writing self-documenting, testable, and modular code.</p>
-              </div>
-              
-              <div>
-                <h4 style={{ fontSize: '1.05rem', color: '#FFFFFF', marginBottom: '0.2rem' }}>02 / AI Orchestration</h4>
-                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Integrating LLMs and intelligent agents into product workflows.</p>
-              </div>
-
-              <div>
-                <h4 style={{ fontSize: '1.05rem', color: '#FFFFFF', marginBottom: '0.2rem' }}>03 / User-Centric Design</h4>
-                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Ensuring speed, accessibility, and high visual standards.</p>
-              </div>
-            </div>
-          </div>
-
-          <div style={{
-            borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-            paddingTop: '1.5rem',
-            marginTop: '1rem',
-            fontSize: '0.9rem',
-            color: 'var(--text-secondary)'
-          }}>
-            📍 Based in Addis Ababa, Ethiopia
-          </div>
-        </TiltCard>
-
       </div>
-
-      <style>{`
-        @media (max-width: 868px) {
-          .responsive-about-grid {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
     </section>
   );
 };
