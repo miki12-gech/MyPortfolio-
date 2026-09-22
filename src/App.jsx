@@ -1,30 +1,43 @@
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import About from './components/About';
-import Skills from './components/Skills';
-import Experience from './components/Experience';
-import Projects from './components/Projects';
-import Architecture from './components/Architecture';
-import Contact from './components/Contact';
+import Navbar from './components/layout/Navbar';
+import ArrivalChapter from './components/chapters/ArrivalChapter';
+import AboutChapter from './components/chapters/AboutChapter';
+import SkillsChapter from './components/chapters/SkillsChapter';
+import ExperienceChapter from './components/chapters/ExperienceChapter';
+import EducationChapter from './components/chapters/EducationChapter';
+import ProjectsChapter from './components/chapters/ProjectsChapter';
+import ArchitectureChapter from './components/chapters/ArchitectureChapter';
+import ContactChapter from './components/chapters/ContactChapter';
 
 function App() {
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-primary/30 font-sans">
-      <div className="fixed inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-      
-      <div className="relative z-10 flex flex-col min-h-screen">
-        <Navbar />
-        
-        <main className="flex-1 w-full max-w-6xl mx-auto px-6 md:px-12 lg:px-24">
-          <Hero />
-          <About />
-          <Skills />
-          <Experience />
-          <Projects />
-          <Architecture />
-          <Contact />
-        </main>
-      </div>
+    <div className="min-h-screen bg-bg-deep text-foreground font-sans grain-overlay">
+      <Navbar />
+
+      <main>
+        {/* Chapter 0 — The Arrival (Coffee Ceremony) */}
+        <ArrivalChapter />
+
+        {/* Chapter 1 — The Person */}
+        <AboutChapter />
+
+        {/* Chapter 2 — The System */}
+        <SkillsChapter />
+
+        {/* Chapter 3 — The Journey */}
+        <ExperienceChapter />
+
+        {/* Chapter 4 — The Academy */}
+        <EducationChapter />
+
+        {/* Chapter 5 — The Work */}
+        <ProjectsChapter />
+
+        {/* Chapter 6 — The Method */}
+        <ArchitectureChapter />
+
+        {/* Chapter 7 — The Conversation */}
+        <ContactChapter />
+      </main>
     </div>
   );
 }
