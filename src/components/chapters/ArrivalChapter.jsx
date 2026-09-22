@@ -16,7 +16,7 @@ import CoffeeScene from '../coffee/CoffeeScene';
 const ArrivalChapter = () => {
   const containerRef = useRef(null);
   const { progress, progressValue } = useChapterProgress(containerRef);
-  const { fillLevel, transitionProgress, isComplete } = useCoffeeProgress(progress);
+  const { pourProgress, drinkProgress, liquidLevel, transitionProgress, isComplete } = useCoffeeProgress(progress);
   const { intensity, isScrolling } = useScrollVelocity(progress);
   const prefersReduced = useReducedMotion();
 
@@ -64,7 +64,9 @@ const ArrivalChapter = () => {
         {/* Coffee Scene */}
         <div className="relative z-10 w-full max-w-[480px] md:max-w-[650px] mx-auto px-4 -mt-12 md:-mt-16">
           <CoffeeScene
-            fillLevel={fillLevel}
+            pourProgress={pourProgress}
+            drinkProgress={drinkProgress}
+            liquidLevel={liquidLevel}
             transitionProgress={transitionProgress}
             isComplete={isComplete}
             isScrolling={isScrolling}

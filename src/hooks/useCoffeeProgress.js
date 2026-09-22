@@ -15,14 +15,20 @@ export default function useCoffeeProgress(progress) {
   const [isComplete, setIsComplete] = useState(false);
   const hasCompletedRef = useRef(false);
 
-  // Coffee fills between 15% and 85% of scroll (adds a starting delay and ending pause)
-  const fillLevel = useTransform(progress, [0.15, 0.85], [0, 1], { clamp: true });
+  // Phase 1: Jebena pours coffee into the cup
+  const pourProgress = useTransform(progress, [0.1, 0.4], [0, 1], { clamp: true });
 
-  // Transition only happens at the very end (last 10%) so the full cup stays on screen longer
-  const transitionProgress = useTransform(progress, [0.9, 1], [0, 1], { clamp: true });
+  // Phase 2: User "drinks" the coffee (cup empties)
+  const drinkProgress = useTransform(progress, [0.6, 0.9], [0, 1], { clamp: true });
 
-  // Track completion
-  useMotionValueEvent(fillLevel, 'change', (latest) => {
+  // The actual liquid in the cup: goes UP when pouring, stays FULL, goes DOWN when drinking
+  const liquidLevel = useTransform(progress, [0.1, 0.4, 0.6, 0.9], [0, 1, 1, 0], { clamp: true });
+
+  // Transition to the next chapter only happens AFTER the coffee is completely drunk
+  const transitionProgress = useTransform(progress, [0.95, 1], [0, 1], { clamp: true });
+
+  // Track completion when fully drunk
+  useMotionValueEvent(drinkProgress, 'change', (latest) => {
     if (latest >= 0.98 && !hasCompletedRef.current) {
       hasCompletedRef.current = true;
       setIsComplete(true);
@@ -35,7 +41,9 @@ export default function useCoffeeProgress(progress) {
   });
 
   return {
-    fillLevel,
+    pourProgress,
+    drinkProgress,
+    liquidLevel,
     transitionProgress,
     isComplete,
   };

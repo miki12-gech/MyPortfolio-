@@ -69,13 +69,18 @@ const CoffeeScene = ({
           {/* Handle */}
           <path d="M 55,400 L 20,385 L 25,382 L 58,395 Z" fill="#2A1B12" />
           
-          {/* A few green/brown coffee beans inside */}
-          <ellipse cx="90" cy="398" rx="3" ry="1.5" fill="#5D4037" transform="rotate(30 90 398)" />
-          <ellipse cx="98" cy="402" rx="3" ry="1.5" fill="#3E2723" transform="rotate(-15 98 402)" />
-          <ellipse cx="110" cy="397" rx="3" ry="1.5" fill="#4E342E" transform="rotate(45 110 397)" />
-          <ellipse cx="102" cy="394" rx="3" ry="1.5" fill="#5D4037" transform="rotate(10 102 394)" />
-          <ellipse cx="85" cy="401" rx="3" ry="1.5" fill="#3E2723" transform="rotate(-40 85 401)" />
-          <ellipse cx="115" cy="403" rx="3" ry="1.5" fill="#4E342E" transform="rotate(80 115 403)" />
+        <g opacity="0.8">
+          {/* Matot (base mat) */}
+          <ellipse cx="200" cy="420" rx="150" ry="25" fill="#1A0D08" />
+          <path d="M 50,420 C 50,440 350,440 350,420 C 350,430 200,455 50,420 Z" fill="#2A1B12" />
+
+          {/* Rekebot (traditional coffee table tray) */}
+          <path d="M 80,410 L 100,380 L 300,380 L 320,410 Z" fill="#3E2723" />
+          <path d="M 100,380 L 300,380 L 300,385 L 100,385 Z" fill="#2A1B12" />
+          
+          {/* Rekebot base / legs */}
+          <rect x="120" y="410" width="10" height="10" fill="#1A0D08" />
+          <rect x="270" y="410" width="10" height="10" fill="#1A0D08" />
         </g>
 
         {/* === ETAN (Traditional Incense Burner) === */}
@@ -92,37 +97,60 @@ const CoffeeScene = ({
           <path d="M 12,35 L 8,45 L 32,45 L 28,35 Z" fill="#1A0D08" />
         </g>
 
-        {/* === MATOT (Woven base for Jebena) === */}
-        {/* We place it statically on the ground beneath where the Jebena rests */}
-        <g className="matot" transform="translate(0, -5)">
-          <ellipse cx="140" cy="256" rx="35" ry="8" fill="rgba(0,0,0,0.5)" filter="blur(3px)" />
-          <ellipse cx="140" cy="252" rx="30" ry="8" fill="#D4A373" />
+        {/* === MITAD (Coffee Roasting Pan) === */}
+        <g className="mitad" transform="translate(100, 395) scale(1.1)">
+          {/* Clay pan */}
+          <ellipse cx="40" cy="10" rx="35" ry="8" fill="#1A0D08" />
+          <path d="M 5,10 C 5,25 75,25 75,10 C 75,15 40,25 5,10 Z" fill="#2A1B12" />
+          
+          {/* Roasted coffee beans (scattered) */}
+          <g fill="#1a0f0a">
+            <ellipse cx="20" cy="10" rx="2.5" ry="1.5" transform="rotate(30 20 10)" />
+            <ellipse cx="28" cy="8" rx="2.5" ry="1.5" transform="rotate(-20 28 8)" />
+            <ellipse cx="35" cy="12" rx="2.5" ry="1.5" transform="rotate(45 35 12)" />
+            <ellipse cx="42" cy="9" rx="2.5" ry="1.5" transform="rotate(10 42 9)" />
+            <ellipse cx="50" cy="11" rx="2.5" ry="1.5" transform="rotate(-40 50 11)" />
+            <ellipse cx="55" cy="8" rx="2.5" ry="1.5" transform="rotate(15 55 8)" />
+            <ellipse cx="60" cy="10" rx="2.5" ry="1.5" transform="rotate(-60 60 10)" />
+            <ellipse cx="32" cy="6" rx="2.5" ry="1.5" transform="rotate(75 32 6)" />
+            <ellipse cx="45" cy="7" rx="2.5" ry="1.5" transform="rotate(-15 45 7)" />
+          </g>
+          
+          {/* Subtle smoke from freshly roasted beans */}
+          <path d="M 30,5 C 25,-10 40,-20 35,-35" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1" filter="blur(1px)" />
+          <path d="M 50,6 C 55,-5 45,-15 50,-25" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1" filter="blur(1px)" />
+        </g>
+
+        {/* Mukecha (Mortar) & Zenezena (Pestle) silhouette in background */}
+        <g opacity="0.4">
+          <rect x="135" y="220" width="10" height="40" fill="#3E2723" transform="rotate(15 140 240)" />
+          <path d="M 120,250 L 160,250 L 155,300 L 125,300 Z" fill="#2A1B12" />
           <ellipse cx="140" cy="252" rx="26" ry="6" fill="#FAEDCD" />
           <path d="M 110,252 C 110,260 125,264 140,264 C 155,264 170,260 170,252 L 168,256 C 168,262 155,266 140,266 C 125,266 112,262 112,256 Z" fill="#CCD5AE" />
         </g>
 
-        {/* Jebena (coffee pot) */}
-        <Jebena fillLevel={fillLevel} />
+        {/* Jebena (coffee pot) pours during Phase 1 */}
+        <Jebena pourProgress={pourProgress} />
 
         {/* Coffee stream (pour) */}
         <CoffeeStream
-          fillLevel={fillLevel}
+          pourProgress={pourProgress}
           isScrolling={isScrolling}
           intensity={intensity}
           isComplete={isComplete}
         />
 
-        {/* Sini (cup) with liquid inside */}
+        {/* Sini (cup) with liquid inside that fills then empties */}
         <Sini>
           <CoffeeLiquid
-            fillLevel={fillLevel}
+            liquidLevel={liquidLevel}
             isScrolling={isScrolling}
           />
         </Sini>
 
         {/* Steam */}
         <CoffeeSteam
-          fillLevel={fillLevel}
+          liquidLevel={liquidLevel}
           isComplete={isComplete}
         />
 

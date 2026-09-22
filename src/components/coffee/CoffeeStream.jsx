@@ -6,13 +6,17 @@
  */
 import { motion, useTransform } from 'framer-motion';
 
-const CoffeeStream = ({ fillLevel, isScrolling, intensity, isComplete }) => {
-  // Stream opacity: visible when pouring, fades when stopped
-  const baseOpacity = useTransform(fillLevel, [0, 0.02, 0.95, 1], [0, 1, 1, 0]);
+const CoffeeStream = ({ pourProgress, isScrolling, intensity, isComplete }) => {
+  // Stream is visible only while pouring (progress 0.1 to 0.9)
+  const streamOpacity = useTransform(
+    pourProgress,
+    [0, 0.1, 0.9, 1],
+    [0, 0.85, 0.85, 0]
+  );
 
   // Stream width based on scroll velocity
   const streamWidth = isScrolling ? 2 + intensity * 3 : 0.5;
-  const streamOpacity = isScrolling ? 1 : 0.15;
+  const scrollOpacity = isScrolling ? 1 : 0.15;
 
   if (isComplete) return null;
 
@@ -33,7 +37,7 @@ const CoffeeStream = ({ fillLevel, isScrolling, intensity, isComplete }) => {
         stroke="url(#streamGradient)"
         strokeWidth={streamWidth}
         strokeLinecap="round"
-        style={{ opacity: baseOpacity }}
+        style={{ opacity: streamOpacity }}
         animate={{
           d: isScrolling
             ? [
@@ -57,8 +61,7 @@ const CoffeeStream = ({ fillLevel, isScrolling, intensity, isComplete }) => {
         stroke="#5A321D"
         strokeWidth={streamWidth + 4}
         strokeLinecap="round"
-        opacity={streamOpacity * 0.15}
-        style={{ opacity: baseOpacity }}
+        style={{ opacity: streamOpacity }}
         filter="url(#streamGlow)"
       />
 
