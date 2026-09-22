@@ -15,11 +15,11 @@ export default function useCoffeeProgress(progress) {
   const [isComplete, setIsComplete] = useState(false);
   const hasCompletedRef = useRef(false);
 
-  // Coffee fills from 0→1 during the first 75% of chapter scroll
-  const fillLevel = useTransform(progress, [0, 0.75], [0, 1], { clamp: true });
+  // Coffee fills between 15% and 85% of scroll (adds a starting delay and ending pause)
+  const fillLevel = useTransform(progress, [0.15, 0.85], [0, 1], { clamp: true });
 
-  // Transition progress (steam → tech) during the last 25% of chapter scroll
-  const transitionProgress = useTransform(progress, [0.75, 1], [0, 1], { clamp: true });
+  // Transition only happens at the very end (last 10%) so the full cup stays on screen longer
+  const transitionProgress = useTransform(progress, [0.9, 1], [0, 1], { clamp: true });
 
   // Track completion
   useMotionValueEvent(fillLevel, 'change', (latest) => {

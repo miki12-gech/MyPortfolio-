@@ -30,7 +30,7 @@ const ArrivalChapter = () => {
     <section
       ref={containerRef}
       id="arrival"
-      style={{ minHeight: '280vh', position: 'relative' }}
+      style={{ minHeight: '400vh', position: 'relative' }}
     >
       <div
         style={{
