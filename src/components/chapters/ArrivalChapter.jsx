@@ -62,7 +62,7 @@ const ArrivalChapter = () => {
         </div>
 
         {/* Coffee Scene */}
-        <div className="relative z-10 w-full max-w-[480px] md:max-w-[560px] mx-auto px-4 -mt-12">
+        <div className="relative z-10 w-full max-w-[800px] md:max-w-[1000px] xl:max-w-[1200px] mx-auto px-4 -mt-16 md:-mt-24">
           <CoffeeScene
             fillLevel={fillLevel}
             transitionProgress={transitionProgress}

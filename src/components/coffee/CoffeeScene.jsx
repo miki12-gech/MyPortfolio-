@@ -38,10 +38,11 @@ const CoffeeScene = ({
       {/* SVG Scene */}
       <motion.svg
         viewBox="0 0 400 480"
-        className="w-full max-w-[400px] h-auto relative z-10"
+        className="w-full h-auto relative z-10"
         style={{
           opacity: sceneOpacity,
           scale: sceneScale,
+          overflow: 'visible',
         }}
         preserveAspectRatio="xMidYMid meet"
       >
