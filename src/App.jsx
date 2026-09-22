@@ -9,32 +9,8 @@ import ArchitectureChapter from './components/chapters/ArchitectureChapter';
 import ContactChapter from './components/chapters/ContactChapter';
 import AmbientSmoke from './components/layout/AmbientSmoke';
 
-import { useEffect } from 'react';
-import Lenis from 'lenis';
 
 function App() {
-  // Initialize global smooth scrolling (adds the delay/inertia effect to the whole page)
-  useEffect(() => {
-    const lenis = new Lenis({
-      duration: 2.25, // Increased by 25% for heavy smoothing/delay
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // smooth easing
-      smoothWheel: true,
-      wheelMultiplier: 0.9, // Make the scroll distance slightly shorter per tick
-      smoothTouch: false,
-    });
-
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    requestAnimationFrame(raf);
-
-    return () => {
-      lenis.destroy();
-    };
-  }, []);
-
   return (
     <div className="min-h-screen bg-bg-deep text-foreground font-sans grain-overlay relative">
       <AmbientSmoke />

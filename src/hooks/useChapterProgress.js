@@ -20,14 +20,7 @@ export default function useChapterProgress(containerRef, options = {}) {
     offset,
   });
 
-  // Apply a spring physics delay so the animation smoothly trails the physical scroll
-  const springProgress = useSpring(scrollYProgress, {
-    stiffness: 70,
-    damping: 30,
-    restDelta: 0.001
-  });
-
-  const progress = useTransform(springProgress, [0, 1], [0, 1]);
+  const progress = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   useMotionValueEvent(progress, 'change', (latest) => {
     setProgressValue(latest);
