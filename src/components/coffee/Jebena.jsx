@@ -6,8 +6,8 @@
 import { motion, useTransform } from 'framer-motion';
 
 const Jebena = ({ fillLevel }) => {
-  // Tilt increases as coffee pours, then returns slightly when complete
-  const tilt = useTransform(fillLevel, [0, 0.5, 0.95, 1], [-8, -25, -28, -15]);
+  // Tilt increases (spout goes down) as coffee pours, then returns slightly when complete
+  const tilt = useTransform(fillLevel, [0, 0.5, 0.95, 1], [0, 25, 30, 15]);
 
   return (
     <motion.g
