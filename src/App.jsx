@@ -16,10 +16,10 @@ function App() {
   // Initialize global smooth scrolling (adds the delay/inertia effect to the whole page)
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.8, // Heavy smoothing duration for that distinct "delay"
+      duration: 2.25, // Increased by 25% for heavy smoothing/delay
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // smooth easing
       smoothWheel: true,
-      wheelMultiplier: 1.2,
+      wheelMultiplier: 0.9, // Make the scroll distance slightly shorter per tick
       smoothTouch: false,
     });
 
