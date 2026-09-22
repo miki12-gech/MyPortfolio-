@@ -1,100 +1,127 @@
 /**
- * CoffeeSteam — Ambient steam and heavy Etan (incense) smoke.
- * Runs independently of scroll (CSS keyframe animation).
+ * CoffeeSteam — Highly realistic volumetric smoke for the Etan (incense) and Cup.
+ * Uses blurred, overlapping radial gradients to simulate real billowing smoke.
  */
 import { useTransform, motion } from 'framer-motion';
 
-// Steam from the coffee cup
-const cupSteamPaths = [
-  { d: 'M 240,325 C 238,310 242,295 237,278 C 233,265 238,250 235,235', delay: '0s', duration: '12s', animation: 'steamDrift1' },
-  { d: 'M 250,325 C 252,308 248,292 252,275 C 255,260 250,245 253,228', delay: '4s', duration: '14s', animation: 'steamDrift2' },
-  { d: 'M 260,325 C 263,312 258,298 262,282 C 265,268 261,255 264,240', delay: '2s', duration: '13s', animation: 'steamDrift3' },
-  { d: 'M 245,325 C 241,305 246,288 242,270 C 239,255 243,240 240,222', delay: '6s', duration: '15s', animation: 'steamDrift1' },
-];
+// Generate random parameters for a realistic continuous smoke plume
+const generateSmokeParticles = (count, startX, startY, spread, height) => {
+  return Array.from({ length: count }).map((_, i) => {
+    // Randomize destinations to create a billowing cloud effect
+    const destX = startX + (Math.random() - 0.5) * spread;
+    const destY = startY - height - Math.random() * (height * 0.5);
+    const duration = 8 + Math.random() * 6; // 8s to 14s duration
+    const delay = -(Math.random() * 15); // Start at random points in the animation
+    const scale = 5 + Math.random() * 10; // Final scale (massive expansion)
 
-// Massive heavy smoke spreading to the far left and right edges of the screen
-const etanSmokePaths = [
-  // Drift far left
-  { d: 'M 350,380 C 200,300 -100,200 -300,50 C -500,-100 -200,-300 -400,-500', delay: '0s', duration: '35s', animation: 'steamDrift1', width: '20' },
-  // Drift far right
-  { d: 'M 350,380 C 500,300 800,200 1000,50 C 1200,-100 900,-300 1100,-500', delay: '5s', duration: '40s', animation: 'steamDrift2', width: '24' },
-  // Drift up and left
-  { d: 'M 350,380 C 250,250 50,100 -150,-100 C -350,-300 -100,-500 -250,-700', delay: '2.5s', duration: '38s', animation: 'steamDrift3', width: '22' },
-  // Drift up and right
-  { d: 'M 350,380 C 450,250 650,100 850,-100 C 1050,-300 800,-500 950,-700', delay: '8s', duration: '42s', animation: 'steamDrift1', width: '26' },
-  // Drift straight up and wide
-  { d: 'M 350,380 C 300,200 400,0 200,-200 C 0,-400 300,-600 100,-800', delay: '12s', duration: '36s', animation: 'steamDrift2', width: '24' },
-  // Drift straight up and wide (opposite)
-  { d: 'M 350,380 C 400,200 300,0 500,-200 C 700,-400 400,-600 600,-800', delay: '18s', duration: '45s', animation: 'steamDrift3', width: '20' },
-];
+    return {
+      startX, startY, destX, destY, duration, delay, scale,
+      id: i
+    };
+  });
+};
+
+// 30 particles for the massive Etan incense smoke
+const etanParticles = generateSmokeParticles(30, 350, 380, 800, 600);
+// 10 smaller particles for the cup steam
+const cupParticles = generateSmokeParticles(10, 250, 325, 100, 150);
 
 const CoffeeSteam = ({ fillLevel, isComplete }) => {
   // Cup steam opacity increases as coffee fills
-  const cupSteamOpacity = useTransform(fillLevel, [0, 0.3, 0.7, 1], [0.05, 0.15, 0.35, 0.55]);
+  const cupSteamOpacity = useTransform(fillLevel, [0, 0.3, 0.7, 1], [0, 0.2, 0.6, 1]);
 
   return (
     <g>
-      {/* Etan Smoke (Always burning, heavy, traditional) */}
-      <g opacity="0.65" filter="blur(2px)">
-        {etanSmokePaths.map((steam, i) => (
-          <path
-            key={`etan-${i}`}
-            d={steam.d}
-            fill="none"
-            stroke="rgba(245, 240, 232, 0.4)"
-            strokeWidth={steam.width}
-            strokeLinecap="round"
-            opacity="0"
+      <defs>
+        {/* Realistic Smoke Gradient (Soft, white/grey with feathering) */}
+        <radialGradient id="realSmoke" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="rgba(230, 230, 230, 0.6)" />
+          <stop offset="30%" stopColor="rgba(210, 210, 210, 0.3)" />
+          <stop offset="70%" stopColor="rgba(200, 200, 200, 0.1)" />
+          <stop offset="100%" stopColor="rgba(255, 255, 255, 0)" />
+        </radialGradient>
+        
+        {/* Blur filter to merge particles into a seamless cloud */}
+        <filter id="smokeBlur">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+        </filter>
+      </defs>
+
+      {/* === REAL ETAN INCENSE SMOKE === */}
+      <g filter="url(#smokeBlur)">
+        {etanParticles.map((p) => (
+          <circle
+            key={`etan-${p.id}`}
+            cx={p.startX}
+            cy={p.startY}
+            r="15"
+            fill="url(#realSmoke)"
             style={{
-              animation: `${steam.animation} ${steam.duration} ${steam.delay} infinite ease-in-out`,
+              animation: `billow-${p.id} ${p.duration}s linear ${p.delay}s infinite`,
+              transformOrigin: `${p.startX}px ${p.startY}px`,
             }}
           />
         ))}
       </g>
 
-      {/* Coffee Cup Steam */}
-      <motion.g style={{ opacity: cupSteamOpacity }}>
-        {cupSteamPaths.map((steam, i) => (
-          <path
-            key={`cup-${i}`}
-            d={steam.d}
-            fill="none"
-            stroke="rgba(245, 240, 232, 0.5)"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            opacity="0"
+      {/* === REAL CUP STEAM === */}
+      <motion.g style={{ opacity: cupSteamOpacity }} filter="url(#smokeBlur)">
+        {cupParticles.map((p) => (
+          <circle
+            key={`cup-${p.id}`}
+            cx={p.startX}
+            cy={p.startY}
+            r="10"
+            fill="url(#realSmoke)"
             style={{
-              animation: `${steam.animation} ${steam.duration} ${steam.delay} infinite ease-in-out`,
+              animation: `billow-${p.id} ${p.duration}s linear ${p.delay}s infinite`,
+              transformOrigin: `${p.startX}px ${p.startY}px`,
             }}
           />
         ))}
 
-        {/* Extra intense steam when complete */}
+        {/* Extra steam surge when completed */}
         {isComplete && (
-          <>
-            <path
-              d="M 235,325 C 230,300 238,275 232,248"
-              fill="none"
-              stroke="rgba(245, 240, 232, 0.4)"
-              strokeWidth="2"
-              strokeLinecap="round"
-              style={{
-                animation: 'steamDrift3 3s 0.3s infinite ease-in-out',
-              }}
-            />
-            <path
-              d="M 265,325 C 270,298 262,272 268,245"
-              fill="none"
-              stroke="rgba(245, 240, 232, 0.35)"
-              strokeWidth="2"
-              strokeLinecap="round"
-              style={{
-                animation: 'steamDrift1 3.4s 0.8s infinite ease-in-out',
-              }}
-            />
-          </>
+          <circle
+            cx="250"
+            cy="325"
+            r="20"
+            fill="url(#realSmoke)"
+            style={{
+              animation: `billow-surge 4s ease-out infinite`,
+              transformOrigin: `250px 325px`,
+            }}
+          />
         )}
       </motion.g>
+
+      {/* Dynamically inject keyframes for every particle so they move uniquely */}
+      <style>{`
+        ${etanParticles.concat(cupParticles).map(p => `
+          @keyframes billow-${p.id} {
+            0% {
+              transform: translate(0px, 0px) scale(0.2) rotate(0deg);
+              opacity: 0;
+            }
+            15% {
+              opacity: 0.8;
+            }
+            80% {
+              opacity: 0.4;
+            }
+            100% {
+              transform: translate(${p.destX - p.startX}px, ${p.destY - p.startY}px) scale(${p.scale}) rotate(${Math.random() > 0.5 ? 90 : -90}deg);
+              opacity: 0;
+            }
+          }
+        `).join('')}
+
+        @keyframes billow-surge {
+          0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
+          20% { opacity: 1; }
+          100% { transform: translate(0, -200px) scale(6); opacity: 0; }
+        }
+      `}</style>
     </g>
   );
 };
