@@ -29,8 +29,8 @@ const AmbientSmoke = () => {
           const size = 300 + Math.random() * 400;
           const left = Math.random() * 100;
           const top = Math.random() * 100;
-          const duration = 20 + Math.random() * 20;
-          const delay = Math.random() * -20;
+          const duration = 60 + Math.random() * 40; // Extremely slow (60s to 100s)
+          const delay = Math.random() * -30;
           
           return (
             <div
