@@ -7,10 +7,12 @@ import EducationChapter from './components/chapters/EducationChapter';
 import ProjectsChapter from './components/chapters/ProjectsChapter';
 import ArchitectureChapter from './components/chapters/ArchitectureChapter';
 import ContactChapter from './components/chapters/ContactChapter';
+import AmbientSmoke from './components/layout/AmbientSmoke';
 
 function App() {
   return (
-    <div className="min-h-screen bg-bg-deep text-foreground font-sans grain-overlay">
+    <div className="min-h-screen bg-bg-deep text-foreground font-sans grain-overlay relative">
+      <AmbientSmoke />
       <Navbar />
 
       <main>

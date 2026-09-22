@@ -77,6 +77,20 @@ const CoffeeScene = ({
           <ellipse cx="115" cy="403" rx="3" ry="1.5" fill="#4E342E" transform="rotate(80 115 403)" />
         </g>
 
+        {/* === ETAN (Traditional Incense Burner) === */}
+        <g className="etan-burner" transform="translate(330, 390)">
+          {/* Small clay pot for incense */}
+          <path d="M 10,25 C 5,25 0,15 5,10 C 10,5 30,5 35,10 C 40,15 35,25 30,25 Z" fill="#3E2723" />
+          <path d="M 5,10 L 10,35 L 30,35 L 35,10" fill="#2A1B12" />
+          <ellipse cx="20" cy="10" rx="16" ry="4" fill="#0d0d0d" />
+          {/* Glowing coals */}
+          <circle cx="15" cy="9" r="2" fill="#EF4444" opacity="0.8" />
+          <circle cx="20" cy="10" r="2.5" fill="#F97316" opacity="0.9" />
+          <circle cx="25" cy="8" r="1.5" fill="#EF4444" opacity="0.7" />
+          {/* Base */}
+          <path d="M 12,35 L 8,45 L 32,45 L 28,35 Z" fill="#1A0D08" />
+        </g>
+
         {/* === MATOT (Woven base for Jebena) === */}
         {/* We place it statically on the ground beneath where the Jebena rests */}
         <g className="matot" transform="translate(0, -5)">

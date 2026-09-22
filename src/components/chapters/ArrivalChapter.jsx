@@ -62,7 +62,7 @@ const ArrivalChapter = () => {
         </div>
 
         {/* Coffee Scene */}
-        <div className="relative z-10 w-full max-w-[360px] md:max-w-[420px] mx-auto px-4 -mt-8">
+        <div className="relative z-10 w-full max-w-[480px] md:max-w-[560px] mx-auto px-4 -mt-12">
           <CoffeeScene
             fillLevel={fillLevel}
             transitionProgress={transitionProgress}
@@ -75,9 +75,12 @@ const ArrivalChapter = () => {
         {/* Identity Text */}
         <motion.div
           style={{ opacity: identityOpacity }}
-          className="relative z-10 text-center mt-4 md:mt-6 px-6"
+          className="relative z-10 text-center mt-6 md:mt-8 px-6"
         >
-          <h1 className="font-display text-sm md:text-base tracking-[0.2em] text-gold mb-2">
+          <p className="text-gold-dim text-sm tracking-[0.3em] font-display mb-3">
+            እንኳን ደህና መጡ <span className="mx-2 opacity-50">|</span> WELCOME
+          </p>
+          <h1 className="font-display text-lg md:text-xl tracking-[0.2em] text-foreground mb-2">
             MIKIALE GETACHEW
           </h1>
           <p className="text-text-secondary text-base md:text-lg font-light tracking-wide">
