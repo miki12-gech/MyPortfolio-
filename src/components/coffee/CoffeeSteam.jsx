@@ -12,14 +12,14 @@ const cupSteamPaths = [
   { d: 'M 245,325 C 241,305 246,288 242,270 C 239,255 243,240 240,222', delay: '2s', duration: '4.2s', animation: 'steamDrift1' },
 ];
 
-// Heavy smoke from the Etan (incense burner) at x=350, y=390
+// Heavy smoke from the Etan (incense burner) at x=370, y=380
 const etanSmokePaths = [
-  { d: 'M 350,390 C 340,350 360,300 340,250 C 320,200 350,150 330,100', delay: '0s', duration: '5s', animation: 'steamDrift1', width: '3' },
-  { d: 'M 350,390 C 360,340 340,280 355,230 C 370,180 340,130 360,80', delay: '1.5s', duration: '6s', animation: 'steamDrift2', width: '4' },
-  { d: 'M 350,390 C 335,360 355,310 330,260 C 305,210 345,160 315,110', delay: '0.8s', duration: '5.5s', animation: 'steamDrift3', width: '3.5' },
-  { d: 'M 350,390 C 365,350 335,290 360,240 C 385,190 335,140 370,90', delay: '2.5s', duration: '6.5s', animation: 'steamDrift1', width: '5' },
-  { d: 'M 350,390 C 345,345 350,295 335,245 C 320,195 360,145 340,95', delay: '3.2s', duration: '5.8s', animation: 'steamDrift2', width: '4' },
-  { d: 'M 350,390 C 355,330 330,270 345,220 C 360,170 330,120 350,70', delay: '1.1s', duration: '4.8s', animation: 'steamDrift3', width: '3' },
+  { d: 'M 370,380 C 350,330 390,260 360,190 C 330,120 380,50 350,-20', delay: '0s', duration: '5s', animation: 'steamDrift1', width: '6' },
+  { d: 'M 370,380 C 390,320 350,240 380,170 C 410,100 360,30 390,-40', delay: '1.5s', duration: '6s', animation: 'steamDrift2', width: '8' },
+  { d: 'M 370,380 C 340,340 380,270 340,200 C 300,130 360,60 320,-10', delay: '0.8s', duration: '5.5s', animation: 'steamDrift3', width: '7' },
+  { d: 'M 370,380 C 390,330 340,250 380,180 C 420,110 350,40 390,-30', delay: '2.5s', duration: '6.5s', animation: 'steamDrift1', width: '9' },
+  { d: 'M 370,380 C 360,325 380,255 350,185 C 320,115 390,45 360,-25', delay: '3.2s', duration: '5.8s', animation: 'steamDrift2', width: '8' },
+  { d: 'M 370,380 C 380,310 330,230 360,160 C 390,90 340,20 370,-50', delay: '1.1s', duration: '4.8s', animation: 'steamDrift3', width: '6' },
 ];
 
 const CoffeeSteam = ({ fillLevel, isComplete }) => {

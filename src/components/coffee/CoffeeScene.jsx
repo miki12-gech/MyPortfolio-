@@ -78,7 +78,7 @@ const CoffeeScene = ({
         </g>
 
         {/* === ETAN (Traditional Incense Burner) === */}
-        <g className="etan-burner" transform="translate(330, 390)">
+        <g className="etan-burner" transform="translate(340, 370) scale(1.5)">
           {/* Small clay pot for incense */}
           <path d="M 10,25 C 5,25 0,15 5,10 C 10,5 30,5 35,10 C 40,15 35,25 30,25 Z" fill="#3E2723" />
           <path d="M 5,10 L 10,35 L 30,35 L 35,10" fill="#2A1B12" />
