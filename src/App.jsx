@@ -12,7 +12,7 @@ import AmbientSmoke from './components/layout/AmbientSmoke';
 
 function App() {
   return (
-    <div className="min-h-screen bg-bg-deep text-foreground font-sans grain-overlay relative">
+    <div className="min-h-screen bg-bg-deep text-foreground font-sans grain-overlay relative overflow-x-hidden">
       <AmbientSmoke />
       <Navbar />
 
