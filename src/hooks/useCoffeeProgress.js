@@ -13,8 +13,8 @@ export default function useCoffeeProgress(progress) {
   const [isComplete, setIsComplete] = useState(false);
   const hasCompletedRef = useRef(false);
 
-  // Jebena pours coffee into the cup based on scroll
-  const pourProgress = useTransform(progress, [0.1, 0.6], [0, 1], { clamp: true });
+  // Jebena pours coffee into the cup based on scroll (finishes early so cup is full before next page)
+  const pourProgress = useTransform(progress, [0.05, 0.35], [0, 1], { clamp: true });
 
   // No drinking phase anymore; drinkProgress stays 0 to satisfy props
   const drinkProgress = useTransform(progress, [0, 1], [0, 0]);
@@ -22,8 +22,8 @@ export default function useCoffeeProgress(progress) {
   // The actual liquid in the cup is directly equal to the pour progress
   const liquidLevel = pourProgress;
 
-  // Transition to the next chapter starts right after the cup is full
-  const transitionProgress = useTransform(progress, [0.7, 1], [0, 1], { clamp: true });
+  // Transition to the next chapter starts after the cup is full, well before the next page scrolls in
+  const transitionProgress = useTransform(progress, [0.45, 0.9], [0, 1], { clamp: true });
 
   // Track completion when transition is fully done
   useMotionValueEvent(transitionProgress, 'change', (latest) => {
