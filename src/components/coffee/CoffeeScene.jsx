@@ -13,7 +13,9 @@ import CoffeeSteam from './CoffeeSteam';
 import SteamTransition from './SteamTransition';
 
 const CoffeeScene = ({
-  fillLevel,
+  pourProgress,
+  drinkProgress,
+  liquidLevel,
   transitionProgress,
   isComplete,
   isScrolling,
@@ -144,14 +146,14 @@ const CoffeeScene = ({
         {/* Sini (cup) with liquid inside that fills then empties */}
         <Sini>
           <CoffeeLiquid
-            liquidLevel={liquidLevel}
+            fillLevel={liquidLevel}
             isScrolling={isScrolling}
           />
         </Sini>
 
         {/* Steam */}
         <CoffeeSteam
-          liquidLevel={liquidLevel}
+          fillLevel={liquidLevel}
           isComplete={isComplete}
         />
 
