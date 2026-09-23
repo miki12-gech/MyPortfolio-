@@ -103,7 +103,7 @@ const ArrivalChapter = () => {
           className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
         >
           <span className="text-text-dim text-xs tracking-[0.3em] font-display">
-            SCROLL TO POUR
+            SCROLL TO EXPLORE
           </span>
           <motion.div
             animate={{ y: [0, 6, 0] }}
