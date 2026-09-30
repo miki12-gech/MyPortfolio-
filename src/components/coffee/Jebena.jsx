@@ -3,6 +3,7 @@
  * Black clay (shikla) with spherical base, long neck, side handle, and matot (woven base).
  * Tilts based on pour progress.
  */
+ 
 import { motion, useTransform } from 'framer-motion';
 
 const Jebena = ({ pourProgress }) => {

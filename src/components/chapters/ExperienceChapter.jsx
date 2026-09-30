@@ -1,11 +1,10 @@
 /**
  * ExperienceChapter — Chapter 3: The Journey.
- * Visual journey/path rather than standard timeline.
- * Preserves both experience entries exactly.
+ * Unified professional timeline combining experience and education.
  */
 import { motion } from 'framer-motion';
 import ChapterHeading from '../layout/ChapterHeading';
-import { experiences } from '../../data/experience';
+import { experiences, education } from '../../data/experience';
 
 const ExperienceChapter = () => {
   return (
@@ -13,7 +12,7 @@ const ExperienceChapter = () => {
       <div className="relative z-10 max-w-4xl mx-auto px-6 md:px-12">
         <ChapterHeading
           label="Chapter 03 — The Journey"
-          title="Professional Experience"
+          title="Experience & Education"
           className="mb-16"
         />
 
@@ -22,14 +21,59 @@ const ExperienceChapter = () => {
           {/* Vertical path line */}
           <div className="absolute left-6 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-gold/30 via-gold/15 to-transparent" />
 
-          <div className="space-y-16">
-            {experiences.map((exp, index) => (
+          <div className="space-y-12">
+            {/* Education entry */}
+            {education.map((edu, index) => (
               <motion.div
-                key={index}
+                key={`edu-${index}`}
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
+                transition={{ duration: 0.6 }}
+                className="relative pl-16 md:pl-20"
+              >
+                {/* Journey node */}
+                <div className="absolute left-4 md:left-6 top-1 w-4 h-4 rounded-full border-2 border-gold bg-bg-deep flex items-center justify-center">
+                  <div className="w-1.5 h-1.5 rounded-full bg-gold" />
+                </div>
+
+                {/* Period badge */}
+                <span className="inline-block text-xs font-display tracking-[0.2em] text-gold bg-gold/8 px-3 py-1 rounded-full mb-3 border border-gold/15">
+                  {edu.period}
+                </span>
+
+                {/* Content card */}
+                <div className="glass-warm p-6 md:p-8 rounded-2xl">
+                  <div className="flex items-start justify-between mb-1">
+                    <h3 className="text-xl font-bold text-foreground">{edu.degree}</h3>
+                    {edu.status && (
+                      <span className="text-xs text-gold bg-gold/8 px-2 py-0.5 rounded-full border border-gold/15 shrink-0 ml-3">
+                        {edu.status}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-gold-dim text-sm font-medium mb-4">{edu.institution}</p>
+
+                  <div className="grid sm:grid-cols-2 gap-2">
+                    {edu.highlights.map((item, i) => (
+                      <div key={i} className="flex items-center gap-2 text-text-secondary text-sm">
+                        <span className="w-1 h-1 rounded-full bg-gold-dim shrink-0" />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+
+            {/* Experience entries */}
+            {experiences.map((exp, index) => (
+              <motion.div
+                key={`exp-${index}`}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="relative pl-16 md:pl-20"
               >
                 {/* Journey node */}
@@ -45,7 +89,10 @@ const ExperienceChapter = () => {
                 {/* Content card */}
                 <div className="glass-warm p-6 md:p-8 rounded-2xl">
                   <h3 className="text-xl font-bold text-foreground mb-1">{exp.role}</h3>
-                  <p className="text-gold-dim text-sm font-medium mb-4">{exp.company}</p>
+                  <p className="text-gold-dim text-sm font-medium mb-1">{exp.company}</p>
+                  {exp.context && (
+                    <p className="text-muted text-xs mb-4 italic">{exp.context}</p>
+                  )}
 
                   <ul className="space-y-2">
                     {exp.responsibilities.map((resp, i) => (

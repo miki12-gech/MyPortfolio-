@@ -1,39 +1,44 @@
 /**
- * Experience & Education data — preserved from existing portfolio.
- * Do not invent employers, dates, responsibilities, or achievements.
+ * Experience & Education data — corrected with verified facts.
  * 
- * TODO: Fill in education details (university, expected graduation).
+ * INSA internship: Started February 2025
+ * Mekelle University: 2021 – 2026
  */
 
 export const experiences = [
   {
     company: 'Information Network Security Administration (INSA)',
     role: 'Full-Stack Developer Intern',
-    period: '2023',
+    period: 'Feb 2025 – Present',
+    context: '4th-year internship → continued summer internship',
     responsibilities: [
-      'Enterprise application development',
-      'Backend architecture',
-      'Frontend engineering',
-      'Database engineering',
+      'Enterprise application development (Hospital Management System)',
+      'Spring Boot backend architecture with RBAC & data isolation',
+      'Next.js frontend engineering',
+      'Database migration & PostgreSQL optimization',
+      'Hardware/IoT webhook integration',
     ],
   },
   {
-    company: 'AI Security Research / Software Engineering Internship',
+    company: 'INSA — AI & Security Research',
     role: 'Security Researcher & Developer',
-    period: '2024',
+    period: '2025',
+    context: 'Extended internship work',
     responsibilities: [
-      'Android automation',
-      'AI integration',
-      'Security analysis',
+      'AI-driven Android security automation',
+      'Action Executor implementation for RL-based pentesting agent',
+      'Dynamic analysis with Appium, ADB, Frida',
+      'Runtime observation & reward signal engineering',
     ],
   },
 ];
 
 export const education = [
   {
-    institution: 'University', // TODO: Replace with your actual university name
+    institution: 'Mekelle University',
     degree: 'Software Engineering',
-    period: 'Current Student', // TODO: Replace with actual years (e.g., "2021 – 2025")
+    period: '2021 – 2026',
+    status: 'Currently in 5th year',
     highlights: [
       'Software Engineering focus',
       'AI & Machine Learning coursework',

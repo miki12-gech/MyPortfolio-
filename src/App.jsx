@@ -3,7 +3,6 @@ import ArrivalChapter from './components/chapters/ArrivalChapter';
 import AboutChapter from './components/chapters/AboutChapter';
 import SkillsChapter from './components/chapters/SkillsChapter';
 import ExperienceChapter from './components/chapters/ExperienceChapter';
-import EducationChapter from './components/chapters/EducationChapter';
 import ProjectsChapter from './components/chapters/ProjectsChapter';
 import ArchitectureChapter from './components/chapters/ArchitectureChapter';
 import ContactChapter from './components/chapters/ContactChapter';
@@ -26,19 +25,16 @@ function App() {
         {/* Chapter 2 — The System */}
         <SkillsChapter />
 
-        {/* Chapter 3 — The Journey */}
+        {/* Chapter 3 — The Journey (Experience + Education unified) */}
         <ExperienceChapter />
 
-        {/* Chapter 4 — The Academy */}
-        <EducationChapter />
-
-        {/* Chapter 5 — The Work */}
+        {/* Chapter 4 — The Work */}
         <ProjectsChapter />
 
-        {/* Chapter 6 — The Method */}
+        {/* Chapter 5 — The Method */}
         <ArchitectureChapter />
 
-        {/* Chapter 7 — The Conversation */}
+        {/* Chapter 6 — The Conversation */}
         <ContactChapter />
       </main>
     </div>

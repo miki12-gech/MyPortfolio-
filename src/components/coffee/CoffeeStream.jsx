@@ -4,6 +4,7 @@
  * Has organic wobble animation.
  * Fades when not scrolling, disappears when cup is complete.
  */
+ 
 import { motion, useTransform } from 'framer-motion';
 
 const CoffeeStream = ({ pourProgress, isScrolling, intensity, isComplete }) => {
@@ -16,7 +17,6 @@ const CoffeeStream = ({ pourProgress, isScrolling, intensity, isComplete }) => {
 
   // Stream width based on scroll velocity
   const streamWidth = isScrolling ? 2 + intensity * 3 : 0.5;
-  const scrollOpacity = isScrolling ? 1 : 0.15;
 
   if (isComplete) return null;
 

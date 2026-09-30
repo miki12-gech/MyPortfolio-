@@ -1,17 +1,28 @@
 /**
  * AboutChapter — Chapter 1: The Person Behind The System.
- * Preserves all existing About content with redesigned presentation.
+ * Engineering story structure with visual hierarchy.
  */
 import { motion } from 'framer-motion';
 import ChapterHeading from '../layout/ChapterHeading';
 import profileImg from '../../assets/profile.jpg';
 
-const competencies = [
-  'Enterprise Systems Architecture',
-  'Full-Stack Web Development',
-  'AI Integration & Automation',
-  'Cybersecurity Research & Testing',
-  'Cloud Deployment & DevOps',
+const focusAreas = [
+  {
+    label: 'Enterprise Systems',
+    detail: 'Spring Boot, RBAC, database migration, secure APIs',
+  },
+  {
+    label: 'AI & Automation',
+    detail: 'Reinforcement learning, RAG systems, intelligent pipelines',
+  },
+  {
+    label: 'Cybersecurity',
+    detail: 'Android security testing, dynamic analysis, Frida, Appium',
+  },
+  {
+    label: 'Cloud & DevOps',
+    detail: 'Docker, AWS, CI/CD, GitHub Actions, ECS/Fargate',
+  },
 ];
 
 const AboutChapter = () => {
@@ -33,7 +44,7 @@ const AboutChapter = () => {
         />
 
         <div className="grid md:grid-cols-5 gap-12 md:gap-16 items-start">
-          {/* Profile image — small, elegant */}
+          {/* Profile image */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -45,8 +56,9 @@ const AboutChapter = () => {
               <div className="w-48 h-56 md:w-56 md:h-64 rounded-2xl overflow-hidden border border-gold/10">
                 <img
                   src={profileImg}
-                  alt="Mikiale Getachew"
+                  alt="Mikiale Getachew — Full-Stack Software Engineer"
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
               {/* Frame accent */}
@@ -70,16 +82,13 @@ const AboutChapter = () => {
               </p>
               <p>
                 My engineering approach bridges the gap between complex backend architectures
-                and intuitive frontend experiences. I specialize in designing systems that
-                scale, from cloud deployments to secure AI-driven analysis platforms.
-              </p>
-              <p>
-                Recently, I've been focused on modernizing legacy hospital management systems
-                and developing AI environments for automated Android security testing.
+                and intuitive frontend experiences — from modernizing legacy hospital systems
+                with Spring Boot and Next.js, to building AI-driven Android security testing
+                environments with reinforcement learning.
               </p>
             </motion.div>
 
-            {/* Core Competencies */}
+            {/* Focus Areas — structured as capability domains */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -89,16 +98,16 @@ const AboutChapter = () => {
             >
               <h3 className="text-lg font-semibold text-foreground mb-5 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-gold" />
-                Core Competencies
+                Focus Areas
               </h3>
-              <ul className="space-y-3">
-                {competencies.map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-text-secondary">
-                    <span className="w-1 h-1 rounded-full bg-gold-dim flex-shrink-0" />
-                    {item}
-                  </li>
+              <div className="grid sm:grid-cols-2 gap-5">
+                {focusAreas.map((area, i) => (
+                  <div key={i} className="space-y-1">
+                    <h4 className="text-sm font-semibold text-foreground">{area.label}</h4>
+                    <p className="text-xs text-muted leading-relaxed">{area.detail}</p>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </motion.div>
           </div>
         </div>

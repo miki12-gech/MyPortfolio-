@@ -1,17 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 /**
  * AmbientSmoke — Subtle, persistent background smoke for all chapters.
  * Simulates the lingering smell/smoke of Etan (incense) throughout the website.
  */
 const AmbientSmoke = () => {
-  const [mounted, setMounted] = useState(false);
+  const [blobs] = useState(() => 
+    [...Array(6)].map(() => ({
+      size: 300 + Math.random() * 400,
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      duration: 60 + Math.random() * 40,
+      delay: Math.random() * -30,
+    }))
+  );
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
+  if (blobs.length === 0) return null;
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-30">
@@ -25,28 +29,20 @@ const AmbientSmoke = () => {
 
       <div className="w-full h-full relative" style={{ filter: 'url(#smoke-blur)' }}>
         {/* Render several drifting smoke blobs */}
-        {[...Array(6)].map((_, i) => {
-          const size = 300 + Math.random() * 400;
-          const left = Math.random() * 100;
-          const top = Math.random() * 100;
-          const duration = 60 + Math.random() * 40; // Extremely slow (60s to 100s)
-          const delay = Math.random() * -30;
-          
-          return (
+        {blobs.map((blob, i) => (
             <div
               key={i}
               className="absolute rounded-full bg-gold/5"
               style={{
-                width: size,
-                height: size,
-                left: `${left}%`,
-                top: `${top}%`,
-                animation: `float-smoke ${duration}s ease-in-out ${delay}s infinite alternate`,
+                width: blob.size,
+                height: blob.size,
+                left: `${blob.left}%`,
+                top: `${blob.top}%`,
+                animation: `float-smoke ${blob.duration}s ease-in-out ${blob.delay}s infinite alternate`,
                 transformOrigin: 'center center',
               }}
             />
-          );
-        })}
+          ))}
       </div>
 
       <style>{`

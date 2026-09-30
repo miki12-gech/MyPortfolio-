@@ -1,42 +1,42 @@
 /**
  * ArchitectureChapter — Chapter 6: The Method.
- * Connected engineering pipeline visualization.
- * Preserves 6-step process with visual connections.
+ * Engineering philosophy section — how I approach building software.
+ * Visually restrained, communicates principles not buzzwords.
  */
 import { motion } from 'framer-motion';
-import { FileText, Cpu, Code2, TestTube, Rocket, Activity } from 'lucide-react';
+import { FileText, Cpu, Code2, Shield, Rocket, Activity } from 'lucide-react';
 import ChapterHeading from '../layout/ChapterHeading';
 
-const steps = [
+const principles = [
   {
-    icon: <FileText className="text-gold" size={22} />,
-    title: 'Requirements',
-    description: 'Deep dive into business logic, security constraints, and scalability needs.',
+    icon: <Cpu className="text-gold" size={20} />,
+    title: 'Modular Architecture',
+    description: 'Systems designed as composable, independently deployable modules rather than monolithic blocks.',
   },
   {
-    icon: <Cpu className="text-gold" size={22} />,
-    title: 'Architecture',
-    description: 'System design prioritizing Clean Architecture and security-first principles.',
+    icon: <Shield className="text-gold" size={20} />,
+    title: 'Security-First',
+    description: 'Authentication, authorization, and data isolation treated as architectural requirements, not afterthoughts.',
   },
   {
-    icon: <Code2 className="text-gold" size={22} />,
-    title: 'Development',
-    description: 'Type-safe, modular implementation with reusable UI components and robust APIs.',
+    icon: <Code2 className="text-gold" size={20} />,
+    title: 'Data Integrity',
+    description: 'Migration discipline, referential integrity, and query optimization as foundations of reliable systems.',
   },
   {
-    icon: <TestTube className="text-gold" size={22} />,
-    title: 'Testing',
-    description: 'Automated security testing, unit tests, and performance validation.',
+    icon: <Rocket className="text-gold" size={20} />,
+    title: 'Automation',
+    description: 'CI/CD pipelines, automated testing, and infrastructure-as-code for repeatable, reliable deployments.',
   },
   {
-    icon: <Rocket className="text-gold" size={22} />,
-    title: 'Deployment',
-    description: 'CI/CD pipelines ensuring zero-downtime and reliable releases.',
+    icon: <Activity className="text-gold" size={20} />,
+    title: 'Performance',
+    description: 'Intentional optimization through profiling and measurement rather than premature optimization.',
   },
   {
-    icon: <Activity className="text-gold" size={22} />,
-    title: 'Monitoring',
-    description: 'Continuous observability, logging, and performance tracking.',
+    icon: <FileText className="text-gold" size={20} />,
+    title: 'Maintainability',
+    description: 'Clean code, clear boundaries, and meaningful abstractions that future engineers can understand.',
   },
 ];
 
@@ -50,12 +50,11 @@ const ArchitectureChapter = () => {
           className="mb-6"
         />
         <p className="text-muted text-lg max-w-2xl mb-14">
-          A disciplined engineering lifecycle focused on reliability, security, and scalability.
+          Engineering principles that guide every architectural decision and implementation choice.
         </p>
 
-        {/* Pipeline connection line (visible on desktop) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {steps.map((step, index) => (
+          {principles.map((principle, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 24 }}
@@ -65,23 +64,19 @@ const ArchitectureChapter = () => {
               className="glass-warm p-7 rounded-2xl relative overflow-hidden group"
             >
               {/* Step number watermark */}
-              <div className="absolute top-3 right-4 opacity-[0.04] group-hover:opacity-[0.08] transition-opacity duration-500">
+              <div className="absolute top-3 right-4 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity duration-500">
                 <span className="text-7xl font-black text-foreground">{index + 1}</span>
               </div>
 
               <div className="relative z-10">
-                {/* Connection indicator */}
                 <div className="flex items-center gap-3 mb-5">
-                  <div className="w-11 h-11 rounded-xl bg-gold/5 border border-gold/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    {step.icon}
+                  <div className="w-10 h-10 rounded-xl bg-gold/5 border border-gold/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    {principle.icon}
                   </div>
-                  {index < steps.length - 1 && (
-                    <div className="hidden lg:block absolute -right-3 top-1/2 w-6 h-px bg-gold/15" />
-                  )}
                 </div>
 
-                <h3 className="text-lg font-bold text-foreground mb-2">{step.title}</h3>
-                <p className="text-text-secondary text-sm leading-relaxed">{step.description}</p>
+                <h3 className="text-lg font-bold text-foreground mb-2">{principle.title}</h3>
+                <p className="text-text-secondary text-sm leading-relaxed">{principle.description}</p>
               </div>
             </motion.div>
           ))}

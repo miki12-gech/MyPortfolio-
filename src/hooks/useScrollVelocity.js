@@ -12,7 +12,7 @@ export default function useScrollVelocity(progress) {
   const [intensity, setIntensity] = useState(0);
   const [isScrolling, setIsScrolling] = useState(false);
   const lastValueRef = useRef(0);
-  const lastTimeRef = useRef(Date.now());
+  const lastTimeRef = useRef(0);
   const timeoutRef = useRef(null);
 
   useMotionValueEvent(progress, 'change', (latest) => {

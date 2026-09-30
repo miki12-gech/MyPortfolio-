@@ -1,20 +1,27 @@
-import { useState, useEffect } from 'react';
+import { useSyncExternalStore } from 'react';
 
 /**
  * Detects whether the user prefers reduced motion.
  * Returns true if prefers-reduced-motion is 'reduce'.
+ * Uses useSyncExternalStore for React 19 purity compliance.
  */
+
+const QUERY = '(prefers-reduced-motion: reduce)';
+
+function subscribe(callback) {
+  const mq = window.matchMedia(QUERY);
+  mq.addEventListener('change', callback);
+  return () => mq.removeEventListener('change', callback);
+}
+
+function getSnapshot() {
+  return window.matchMedia(QUERY).matches;
+}
+
+function getServerSnapshot() {
+  return false;
+}
+
 export default function useReducedMotion() {
-  const [prefersReduced, setPrefersReduced] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReduced(mq.matches);
-
-    const handler = (e) => setPrefersReduced(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
-
-  return prefersReduced;
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }

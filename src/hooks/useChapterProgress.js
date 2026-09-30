@@ -1,5 +1,5 @@
-import { useRef, useCallback, useEffect, useState } from 'react';
-import { useScroll, useTransform, useMotionValueEvent, useSpring } from 'framer-motion';
+import { useState } from 'react';
+import { useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
 
 /**
  * Hook for tracking chapter scroll progress.

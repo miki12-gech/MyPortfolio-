@@ -14,7 +14,6 @@ import SteamTransition from './SteamTransition';
 
 const CoffeeScene = ({
   pourProgress,
-  drinkProgress,
   liquidLevel,
   transitionProgress,
   isComplete,

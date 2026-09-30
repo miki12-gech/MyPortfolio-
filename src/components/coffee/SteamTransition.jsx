@@ -9,6 +9,7 @@
  * - 0.5: blend of organic and geometric
  * - 1: fully geometric, coffee scene faded
  */
+ 
 import { motion, useTransform } from 'framer-motion';
 
 const techNodes = [

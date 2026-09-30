@@ -85,6 +85,27 @@ html {
   letter-spacing: 0.15em;
 }
 
+/* Section divider — subtle horizontal rule */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(197, 165, 114, 0.12) 30%,
+    rgba(197, 165, 114, 0.12) 70%,
+    transparent 100%
+  );
+}
+
+/* Text gradient utility */
+.text-gradient-gold {
+  background: linear-gradient(135deg, #D4B87A 0%, #C5A572 50%, #8B7650 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 /* ============================================
    GRAIN TEXTURE OVERLAY
    ============================================ */
@@ -192,6 +213,34 @@ html {
 }
 
 /* ============================================
+   SECTION REVEAL ANIMATION
+   ============================================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   SUBTLE GLOW PULSE
+   ============================================ */
+
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* ============================================
    REDUCED MOTION
    ============================================ */
 
@@ -225,4 +274,13 @@ html {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-muted);
+}
+
+/* ============================================
+   SELECTION STYLING
+   ============================================ */
+
+::selection {
+  background-color: rgba(197, 165, 114, 0.25);
+  color: var(--color-foreground);
 }

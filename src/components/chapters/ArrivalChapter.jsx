@@ -1,9 +1,8 @@
 /**
  * ArrivalChapter — Chapter 0: The Ethiopian Coffee Ceremony.
  * 
- * The visitor enters a dark, atmospheric scene.
- * Scrolling controls the coffee pour.
- * After completion, steam transitions into engineering visuals.
+ * Redesigned hero with strong identity, positioning statement, CTAs,
+ * and the scroll-driven coffee pour ceremony below.
  */
 import { useRef } from 'react';
 import { motion, useTransform } from 'framer-motion';
@@ -15,8 +14,8 @@ import CoffeeScene from '../coffee/CoffeeScene';
 
 const ArrivalChapter = () => {
   const containerRef = useRef(null);
-  const { progress, progressValue } = useChapterProgress(containerRef);
-  const { pourProgress, drinkProgress, liquidLevel, transitionProgress, isComplete } = useCoffeeProgress(progress);
+  const { progress } = useChapterProgress(containerRef);
+  const { pourProgress, liquidLevel, transitionProgress, isComplete } = useCoffeeProgress(progress);
   const { intensity, isScrolling } = useScrollVelocity(progress);
   const prefersReduced = useReducedMotion();
 
@@ -25,6 +24,9 @@ const ArrivalChapter = () => {
 
   // Identity text fades in slightly after scroll begins, fades with transition
   const identityOpacity = useTransform(progress, [0, 0.02, 0.7, 0.95], [0.9, 1, 1, 0]);
+
+  // CTA buttons fade out earlier
+  const ctaOpacity = useTransform(progress, [0, 0.02, 0.5, 0.7], [0.9, 1, 1, 0]);
 
   return (
     <section
@@ -61,11 +63,69 @@ const ArrivalChapter = () => {
           />
         </div>
 
+        {/* Identity Text — above the coffee scene */}
+        <motion.div
+          style={{ opacity: identityOpacity }}
+          className="relative z-10 text-center px-6 mb-4 md:mb-6"
+        >
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-gold-dim text-xs tracking-[0.3em] font-display mb-4"
+          >
+            እንኳን ደህና መጡ <span className="mx-2 opacity-50">|</span> WELCOME
+          </motion.p>
+          
+          <motion.h1
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="font-display text-xl md:text-2xl lg:text-3xl tracking-[0.15em] text-foreground mb-3"
+          >
+            MIKIALE GETACHEW
+          </motion.h1>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="text-text-secondary text-base md:text-lg font-light tracking-wide mb-2"
+          >
+            Full-Stack Software Engineer
+          </motion.p>
+          
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="text-muted text-sm tracking-wider max-w-md mx-auto leading-relaxed"
+          >
+            Building scalable enterprise systems, intelligent security platforms, and cloud-ready applications.
+          </motion.p>
+
+          {/* Domain badges */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.0 }}
+            className="flex items-center justify-center gap-2 mt-4 flex-wrap"
+          >
+            {['Software Engineering', 'AI', 'Cybersecurity', 'Cloud'].map((domain) => (
+              <span
+                key={domain}
+                className="text-xs text-gold-dim tracking-wider px-3 py-1 border border-gold/10 rounded-full bg-gold/[0.03]"
+              >
+                {domain}
+              </span>
+            ))}
+          </motion.div>
+        </motion.div>
+
         {/* Coffee Scene */}
-        <div className="relative z-10 w-full max-w-[480px] md:max-w-[650px] mx-auto px-4 -mt-12 md:-mt-16">
+        <div className="relative z-10 w-full max-w-[420px] md:max-w-[560px] mx-auto px-4">
           <CoffeeScene
             pourProgress={pourProgress}
-            drinkProgress={drinkProgress}
             liquidLevel={liquidLevel}
             transitionProgress={transitionProgress}
             isComplete={isComplete}
@@ -74,27 +134,31 @@ const ArrivalChapter = () => {
           />
         </div>
 
-        {/* Identity Text */}
+        {/* CTAs */}
         <motion.div
-          style={{ opacity: identityOpacity }}
-          className="relative z-10 text-center mt-6 md:mt-8 px-6"
+          style={{ opacity: ctaOpacity }}
+          className="relative z-10 flex flex-col sm:flex-row items-center gap-3 mt-5 px-6"
         >
-          <p className="text-gold-dim text-sm tracking-[0.3em] font-display mb-3">
-            እንኳን ደህና መጡ <span className="mx-2 opacity-50">|</span> WELCOME
-          </p>
-          <h1 className="font-display text-lg md:text-xl tracking-[0.2em] text-foreground mb-2">
-            MIKIALE GETACHEW
-          </h1>
-          <p className="text-text-secondary text-base md:text-lg font-light tracking-wide">
-            Software Engineering Student
-          </p>
-          <p className="text-muted text-sm mt-1.5 tracking-wider">
-            AI{' '}
-            <span className="text-gold-dim mx-1">•</span>{' '}
-            Full-Stack{' '}
-            <span className="text-gold-dim mx-1">•</span>{' '}
-            Cybersecurity
-          </p>
+          <a
+            href="#projects"
+            onClick={(e) => {
+              e.preventDefault();
+              document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="px-6 py-2.5 bg-gold text-bg-deep text-sm font-semibold rounded-full hover:bg-gold-bright transition-colors duration-300"
+          >
+            View My Work
+          </a>
+          <a
+            href="#contact"
+            onClick={(e) => {
+              e.preventDefault();
+              document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="px-6 py-2.5 border border-gold/20 text-gold text-sm font-medium rounded-full hover:bg-gold/5 transition-colors duration-300"
+          >
+            Let's Connect
+          </a>
         </motion.div>
 
         {/* Scroll Instruction */}
@@ -106,7 +170,7 @@ const ArrivalChapter = () => {
             SCROLL TO POUR
           </span>
           <motion.div
-            animate={{ y: [0, 6, 0] }}
+            animate={prefersReduced ? {} : { y: [0, 6, 0] }}
             transition={{
               duration: 2,
               repeat: Infinity,
