@@ -1,5 +1,5 @@
 /**
- * Experience & Education data — corrected with verified facts.
+ * Experience & Education data — verified facts only.
  * 
  * INSA internship: Started February 2025
  * Mekelle University: 2021 – 2026

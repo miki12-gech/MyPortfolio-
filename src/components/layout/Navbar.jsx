@@ -1,22 +1,54 @@
+/**
+ * Navbar — System navigation with chapter indicator.
+ * Desktop: clean horizontal nav with system-status current chapter display.
+ * Mobile: proper hamburger menu.
+ * Keyboard navigation supported.
+ */
 import { useState, useEffect } from 'react';
- 
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navItems = [
-  { name: 'About', href: '#about' },
-  { name: 'Skills', href: '#skills' },
-  { name: 'Journey', href: '#experience' },
-  { name: 'Projects', href: '#projects' },
-  { name: 'Process', href: '#architecture' },
+  { name: 'System', href: '#interface' },
+  { name: 'Work', href: '#work' },
+  { name: 'Engineer', href: '#engineer' },
   { name: 'Contact', href: '#contact' },
+];
+
+const chapterMap = [
+  { id: 'contact', label: 'CONTACT' },
+  { id: 'engineer', label: 'ENGINEER' },
+  { id: 'work', label: 'THE WORK' },
+  { id: 'infrastructure', label: 'INFRASTRUCTURE' },
+  { id: 'security', label: 'SECURITY' },
+  { id: 'intelligence', label: 'INTELLIGENCE' },
+  { id: 'data', label: 'DATA' },
+  { id: 'engine', label: 'ENGINE' },
+  { id: 'interface', label: 'INTERFACE' },
+  { id: 'signal', label: 'SIGNAL' },
 ];
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [currentChapter, setCurrentChapter] = useState('SIGNAL');
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+
+      // Determine current chapter
+      for (const chapter of chapterMap) {
+        const el = document.getElementById(chapter.id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 200) {
+            setCurrentChapter(chapter.label);
+            break;
+          }
+        }
+      }
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -56,19 +88,23 @@ const Navbar = () => {
         transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
           scrolled
-            ? 'glass-warm-strong py-3'
+            ? 'system-panel-active py-3'
             : 'bg-transparent py-5'
         }`}
+        role="navigation"
+        aria-label="Main navigation"
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          {/* Logo */}
+          {/* Logo — name + signal dot */}
           <a
             href="#"
             onClick={(e) => scrollToSection(e, '#')}
-            className="text-xl font-bold tracking-tighter flex items-center gap-1.5 group text-foreground"
+            className="flex items-center gap-2 group"
           >
-            Mikiale
-            <span className="w-1.5 h-1.5 rounded-full bg-gold group-hover:scale-150 transition-transform duration-300" />
+            <span className="text-sm font-semibold tracking-tight text-foreground">
+              MG
+            </span>
+            <span className="w-1 h-1 rounded-full bg-accent group-hover:shadow-[0_0_8px_rgba(139,45,58,0.4)] transition-all duration-300" />
           </a>
 
           {/* Desktop nav */}
@@ -78,12 +114,20 @@ const Navbar = () => {
                 key={item.name}
                 href={item.href}
                 onClick={(e) => scrollToSection(e, item.href)}
-                className="text-sm font-medium text-muted hover:text-foreground transition-colors duration-300 relative group"
+                className="font-mono text-xs tracking-wider text-muted hover:text-foreground transition-colors duration-300 uppercase relative group"
               >
                 {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-gold transition-all duration-300 group-hover:w-full" />
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-accent transition-all duration-300 group-hover:w-full" />
               </a>
             ))}
+
+            {/* Chapter indicator */}
+            <div className="flex items-center gap-2 ml-4 pl-4 border-l border-foreground/[0.06]">
+              <span className="w-1 h-1 rounded-full bg-accent/60" />
+              <span className="font-mono text-[0.5625rem] tracking-widest text-text-dim uppercase">
+                {currentChapter}
+              </span>
+            </div>
           </div>
 
           {/* Mobile hamburger */}
@@ -95,15 +139,15 @@ const Navbar = () => {
           >
             <motion.span
               animate={mobileOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
-              className="block w-6 h-px bg-foreground origin-center"
+              className="block w-5 h-px bg-foreground origin-center"
             />
             <motion.span
               animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
-              className="block w-6 h-px bg-foreground"
+              className="block w-5 h-px bg-foreground"
             />
             <motion.span
               animate={mobileOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
-              className="block w-6 h-px bg-foreground origin-center"
+              className="block w-5 h-px bg-foreground origin-center"
             />
           </button>
         </div>
@@ -117,9 +161,17 @@ const Navbar = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl flex flex-col items-center justify-center"
+            className="fixed inset-0 z-40 bg-bg-deep/98 backdrop-blur-xl flex flex-col items-center justify-center"
           >
-            <nav className="flex flex-col items-center gap-8">
+            {/* Current chapter indicator */}
+            <div className="absolute top-24 flex items-center gap-2">
+              <span className="w-1 h-1 rounded-full bg-accent/60" />
+              <span className="font-mono text-[0.5625rem] tracking-widest text-text-dim uppercase">
+                System / {currentChapter}
+              </span>
+            </div>
+
+            <nav className="flex flex-col items-center gap-8" role="navigation" aria-label="Mobile navigation">
               {navItems.map((item, i) => (
                 <motion.a
                   key={item.name}
@@ -129,7 +181,7 @@ const Navbar = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ delay: i * 0.05, duration: 0.3 }}
-                  className="text-2xl font-medium text-foreground hover:text-gold transition-colors"
+                  className="font-mono text-lg tracking-wider text-foreground hover:text-accent transition-colors uppercase"
                 >
                   {item.name}
                 </motion.a>

@@ -1,41 +1,61 @@
+/**
+ * App — THE SYSTEM
+ * 
+ * The portfolio as a living software architecture.
+ * SIGNAL → INTERFACE → ENGINE → DATA → INTELLIGENCE → SECURITY → INFRASTRUCTURE → WORK → ENGINEER → CONTACT
+ */
 import Navbar from './components/layout/Navbar';
-import ArrivalChapter from './components/chapters/ArrivalChapter';
-import AboutChapter from './components/chapters/AboutChapter';
-import SkillsChapter from './components/chapters/SkillsChapter';
-import ExperienceChapter from './components/chapters/ExperienceChapter';
-import ProjectsChapter from './components/chapters/ProjectsChapter';
-import ArchitectureChapter from './components/chapters/ArchitectureChapter';
-import ContactChapter from './components/chapters/ContactChapter';
-import AmbientSmoke from './components/layout/AmbientSmoke';
-
+import ChapterIndicator from './components/layout/ChapterIndicator';
+import SystemPath from './components/system/SystemPath';
+import SignalChapter from './components/chapters/SignalChapter';
+import InterfaceChapter from './components/chapters/InterfaceChapter';
+import EngineChapter from './components/chapters/EngineChapter';
+import DataChapter from './components/chapters/DataChapter';
+import IntelligenceChapter from './components/chapters/IntelligenceChapter';
+import SecurityChapter from './components/chapters/SecurityChapter';
+import InfrastructureChapter from './components/chapters/InfrastructureChapter';
+import WorkChapter from './components/chapters/WorkChapter';
+import EngineerChapter from './components/chapters/EngineerChapter';
+import SystemCompleteChapter from './components/chapters/SystemCompleteChapter';
 
 function App() {
   return (
     <div className="min-h-screen bg-bg-deep text-foreground font-sans grain-overlay relative overflow-x-hidden">
-      <AmbientSmoke />
+      {/* System-level persistent UI */}
       <Navbar />
+      <ChapterIndicator />
+      <SystemPath />
 
       <main>
-        {/* Chapter 0 — The Arrival (Coffee Ceremony) */}
-        <ArrivalChapter />
+        {/* SIGNAL — The Hero */}
+        <SignalChapter />
 
-        {/* Chapter 1 — The Person */}
-        <AboutChapter />
+        {/* 01 / INTERFACE */}
+        <InterfaceChapter />
 
-        {/* Chapter 2 — The System */}
-        <SkillsChapter />
+        {/* 02 / ENGINE */}
+        <EngineChapter />
 
-        {/* Chapter 3 — The Journey (Experience + Education unified) */}
-        <ExperienceChapter />
+        {/* 03 / DATA */}
+        <DataChapter />
 
-        {/* Chapter 4 — The Work */}
-        <ProjectsChapter />
+        {/* 04 / INTELLIGENCE */}
+        <IntelligenceChapter />
 
-        {/* Chapter 5 — The Method */}
-        <ArchitectureChapter />
+        {/* 05 / SECURITY */}
+        <SecurityChapter />
 
-        {/* Chapter 6 — The Conversation */}
-        <ContactChapter />
+        {/* 06 / INFRASTRUCTURE */}
+        <InfrastructureChapter />
+
+        {/* 07 / THE WORK */}
+        <WorkChapter />
+
+        {/* 08 / THE ENGINEER */}
+        <EngineerChapter />
+
+        {/* 09 / SYSTEM COMPLETE + CONTACT */}
+        <SystemCompleteChapter />
       </main>
     </div>
   );

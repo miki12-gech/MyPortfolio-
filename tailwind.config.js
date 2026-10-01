@@ -7,37 +7,29 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: '#0F0B08',
-        foreground: '#F5F0E8',
-        primary: '#C5A572',
-        muted: '#8A7E72',
-        'bg-deep': '#080706',
-        'bg-elevated': '#16100C',
-        'bg-card': '#1A1410',
-        gold: {
-          DEFAULT: '#C5A572',
-          dim: '#8B7650',
-          bright: '#D4B87A',
+        background: '#0e0e10',
+        foreground: '#f0ece6',
+        primary: '#8b2d3a',
+        muted: '#6b6660',
+        'bg-deep': '#0a0a0b',
+        'bg-elevated': '#141416',
+        'bg-card': '#18181b',
+        'bg-surface': '#1c1c20',
+        accent: {
+          DEFAULT: '#8b2d3a',
+          dim: '#5c1e28',
+          bright: '#a63545',
         },
-        burgundy: {
-          DEFAULT: '#6B2D3E',
-          dim: '#4A1F2B',
-        },
-        coffee: {
-          dark: '#24140D',
-          DEFAULT: '#3A2115',
-          light: '#5A321D',
-          surface: '#6B3D22',
-        },
-        ceramic: {
-          DEFAULT: '#C4A882',
-          dark: '#8B7058',
-          highlight: '#DEC9A8',
+        signal: {
+          DEFAULT: '#4a7c8a',
+          dim: '#2d5a66',
+          bright: '#5e9aab',
         },
       },
       fontFamily: {
-        sans: ['Outfit', 'system-ui', 'sans-serif'],
-        display: ['Syncopate', 'sans-serif'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        mono: ['JetBrains Mono', 'SF Mono', 'Fira Code', 'monospace'],
+        display: ['JetBrains Mono', 'SF Mono', 'monospace'],
       },
     },
   },

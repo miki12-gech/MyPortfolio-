@@ -1,57 +1,72 @@
 @import "tailwindcss";
 
 /* ============================================
-   ETHIOPIAN COFFEE CEREMONY — DESIGN TOKENS
+   THE SYSTEM — DESIGN TOKENS
+   A living software architecture portfolio.
+   Visual language: architectural lines, nodes,
+   data paths, system boundaries, precise spacing.
    ============================================ */
 
 @theme {
-  /* Background hierarchy */
-  --color-bg-deep: #080706;
-  --color-background: #0F0B08;
-  --color-bg-elevated: #16100C;
-  --color-bg-card: #1A1410;
+  /* Background hierarchy — near-black / graphite */
+  --color-bg-deep: #0a0a0b;
+  --color-background: #0e0e10;
+  --color-bg-elevated: #141416;
+  --color-bg-card: #18181b;
+  --color-bg-surface: #1c1c20;
 
-  /* Coffee palette */
-  --color-coffee-dark: #24140D;
-  --color-coffee: #3A2115;
-  --color-coffee-light: #5A321D;
-  --color-coffee-surface: #6B3D22;
+  /* Primary — warm white */
+  --color-foreground: #f0ece6;
+  --color-text-secondary: #b8b2a8;
+  --color-muted: #6b6660;
+  --color-muted-foreground: #6b6660;
+  --color-text-dim: #3d3a36;
 
-  /* Accents */
-  --color-gold: #C5A572;
-  --color-gold-dim: #8B7650;
-  --color-gold-bright: #D4B87A;
-  --color-burgundy: #6B2D3E;
-  --color-burgundy-dim: #4A1F2B;
+  /* Accent — deep burgundy (restrained, guides attention) */
+  --color-accent: #8b2d3a;
+  --color-accent-dim: #5c1e28;
+  --color-accent-bright: #a63545;
+  --color-accent-glow: rgba(139, 45, 58, 0.15);
 
-  /* Text hierarchy */
-  --color-foreground: #F5F0E8;
-  --color-text-secondary: #D4C5B0;
-  --color-muted: #8A7E72;
-  --color-muted-foreground: #8A7E72;
-  --color-text-dim: #5A5248;
+  /* Technical accent — muted cool signal */
+  --color-signal: #4a7c8a;
+  --color-signal-dim: #2d5a66;
+  --color-signal-bright: #5e9aab;
+
+  /* System line colors */
+  --color-line: rgba(240, 236, 230, 0.06);
+  --color-line-active: rgba(240, 236, 230, 0.15);
+  --color-line-accent: rgba(139, 45, 58, 0.25);
+
+  /* Node colors */
+  --color-node: rgba(240, 236, 230, 0.08);
+  --color-node-active: rgba(139, 45, 58, 0.3);
+  --color-node-border: rgba(240, 236, 230, 0.12);
 
   /* Semantic */
-  --color-primary: #C5A572;
-
-  /* Ceramic / material */
-  --color-ceramic: #C4A882;
-  --color-ceramic-dark: #8B7058;
-  --color-ceramic-highlight: #DEC9A8;
+  --color-primary: #8b2d3a;
 }
 
 /* ============================================
-   BASE STYLES
+   TYPOGRAPHY — GOOGLE FONTS
    ============================================ */
 
 @layer base {
   body {
-    background-color: var(--color-background);
+    background-color: var(--color-bg-deep);
     color: var(--color-foreground);
-    font-family: 'Outfit', system-ui, sans-serif;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
+  }
+
+  /* Remove default focus outlines, add custom */
+  *:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 }
 
@@ -60,54 +75,186 @@ html {
 }
 
 /* ============================================
-   UTILITY CLASSES
+   FONT CLASSES
    ============================================ */
 
-/* Warm glassmorphism */
-.glass-warm {
-  background-color: rgba(26, 20, 16, 0.6);
+/* Display / headline font — JetBrains Mono for technical feel */
+.font-display {
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  letter-spacing: 0.05em;
+}
+
+/* Mono utility */
+.font-mono {
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+}
+
+/* ============================================
+   SYSTEM VISUAL LANGUAGE — UTILITY CLASSES
+   ============================================ */
+
+/* System panel — subtle elevated surface */
+.system-panel {
+  background-color: rgba(24, 24, 27, 0.5);
+  border: 1px solid var(--color-line);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.system-panel-active {
+  background-color: rgba(24, 24, 27, 0.7);
+  border: 1px solid var(--color-line-active);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(197, 165, 114, 0.08);
 }
 
-.glass-warm-strong {
-  background-color: rgba(26, 20, 16, 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(197, 165, 114, 0.12);
+/* System node — circular element */
+.system-node {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  box-shadow: 0 0 12px var(--color-accent-glow), 0 0 4px var(--color-accent-glow);
 }
 
-/* Display font */
-.font-display {
-  font-family: 'Syncopate', sans-serif;
+.system-node-sm {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+}
+
+.system-node-lg {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  box-shadow: 0 0 20px var(--color-accent-glow), 0 0 8px var(--color-accent-glow);
+}
+
+/* System line — thin architectural connector */
+.system-line {
+  background: linear-gradient(
+    180deg,
+    var(--color-line-active) 0%,
+    var(--color-line) 100%
+  );
+}
+
+.system-line-h {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-line-active) 20%,
+    var(--color-line-active) 80%,
+    transparent 100%
+  );
+}
+
+/* Architecture label — monospace technical labels */
+.arch-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  color: var(--color-muted);
 }
 
-/* Section divider — subtle horizontal rule */
+.arch-label-active {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* Chapter number — large editorial chapter indicators */
+.chapter-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 200;
+  font-size: clamp(3rem, 8vw, 6rem);
+  line-height: 1;
+  color: var(--color-text-dim);
+  opacity: 0.4;
+}
+
+/* Section divider */
 .section-divider {
   width: 100%;
   height: 1px;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(197, 165, 114, 0.12) 30%,
-    rgba(197, 165, 114, 0.12) 70%,
+    var(--color-line-active) 30%,
+    var(--color-line-active) 70%,
     transparent 100%
   );
 }
 
-/* Text gradient utility */
-.text-gradient-gold {
-  background: linear-gradient(135deg, #D4B87A 0%, #C5A572 50%, #8B7650 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* Tech tag — restrained technology label */
+.tech-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.03em;
+  color: var(--color-text-secondary);
+  background-color: rgba(139, 45, 58, 0.06);
+  border: 1px solid rgba(139, 45, 58, 0.12);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.tech-tag:hover {
+  border-color: rgba(139, 45, 58, 0.25);
+  background-color: rgba(139, 45, 58, 0.1);
 }
 
 /* ============================================
-   GRAIN TEXTURE OVERLAY
+   ARCHITECTURE FLOW DIAGRAM STYLES
+   ============================================ */
+
+.flow-node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-line-active);
+  background-color: rgba(24, 24, 27, 0.4);
+  border-radius: 2px;
+  position: relative;
+  transition: all 0.4s ease;
+}
+
+.flow-node-active {
+  border-color: var(--color-accent);
+  color: var(--color-foreground);
+  background-color: rgba(139, 45, 58, 0.08);
+  box-shadow: 0 0 20px var(--color-accent-glow);
+}
+
+.flow-connector {
+  width: 1px;
+  height: 24px;
+  background: linear-gradient(180deg, var(--color-line-active), var(--color-line));
+  margin: 0 auto;
+}
+
+.flow-connector-h {
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-line-active), var(--color-line));
+}
+
+/* ============================================
+   GRAIN TEXTURE — Very subtle
    ============================================ */
 
 .grain-overlay::after {
@@ -116,94 +263,48 @@ html {
   inset: 0;
   z-index: 9999;
   pointer-events: none;
-  opacity: 0.025;
+  opacity: 0.018;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 256px 256px;
 }
 
 /* ============================================
-   STEAM ANIMATIONS
+   ANIMATIONS
    ============================================ */
 
-@keyframes steamDrift1 {
-  0% {
-    transform: translateY(0) translateX(0) scaleX(1);
-    opacity: 0;
-  }
-  15% { opacity: 0.5; }
-  50% { opacity: 0.7; }
-  85% { opacity: 0.3; }
-  100% {
-    transform: translateY(-70px) translateX(8px) scaleX(1.3);
-    opacity: 0;
-  }
-}
-
-@keyframes steamDrift2 {
-  0% {
-    transform: translateY(0) translateX(0) scaleX(1);
-    opacity: 0;
-  }
-  20% { opacity: 0.4; }
-  60% { opacity: 0.6; }
-  100% {
-    transform: translateY(-85px) translateX(-6px) scaleX(1.5);
-    opacity: 0;
-  }
-}
-
-@keyframes steamDrift3 {
-  0% {
-    transform: translateY(0) translateX(0) scaleX(1);
-    opacity: 0;
-  }
-  25% { opacity: 0.3; }
-  55% { opacity: 0.5; }
-  100% {
-    transform: translateY(-60px) translateX(5px) scaleX(1.2);
-    opacity: 0;
-  }
-}
-
-/* ============================================
-   COFFEE SURFACE RIPPLE
-   ============================================ */
-
-@keyframes coffeeRipple {
-  0% { transform: scaleX(1) scaleY(1); }
-  25% { transform: scaleX(1.02) scaleY(0.95); }
-  50% { transform: scaleX(0.98) scaleY(1.05); }
-  75% { transform: scaleX(1.01) scaleY(0.98); }
-  100% { transform: scaleX(1) scaleY(1); }
-}
-
-/* ============================================
-   SCROLL INSTRUCTION PULSE
-   ============================================ */
-
-@keyframes scrollPulse {
+@keyframes signalPulse {
   0%, 100% {
     opacity: 0.6;
-    transform: translateY(0);
+    transform: scale(1);
   }
   50% {
     opacity: 1;
-    transform: translateY(6px);
+    transform: scale(1.15);
   }
 }
 
-/* ============================================
-   NODE DRAW ANIMATION
-   ============================================ */
+@keyframes signalGlow {
+  0%, 100% {
+    box-shadow: 0 0 8px var(--color-accent-glow), 0 0 24px var(--color-accent-glow);
+  }
+  50% {
+    box-shadow: 0 0 16px var(--color-accent-glow), 0 0 40px var(--color-accent-glow);
+  }
+}
+
+@keyframes lineExtend {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
 
 @keyframes nodePing {
   0% {
     transform: scale(0);
     opacity: 0;
   }
-  50% {
-    transform: scale(1.2);
+  60% {
+    transform: scale(1.3);
     opacity: 1;
   }
   100% {
@@ -212,14 +313,10 @@ html {
   }
 }
 
-/* ============================================
-   SECTION REVEAL ANIMATION
-   ============================================ */
-
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -227,16 +324,31 @@ html {
   }
 }
 
-/* ============================================
-   SUBTLE GLOW PULSE
-   ============================================ */
+@keyframes dataFlow {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
 
-@keyframes glowPulse {
+@keyframes scrollIndicator {
   0%, 100% {
     opacity: 0.4;
+    transform: translateY(0);
   }
   50% {
-    opacity: 0.7;
+    opacity: 0.8;
+    transform: translateY(8px);
   }
 }
 
@@ -256,11 +368,11 @@ html {
 }
 
 /* ============================================
-   SCROLLBAR STYLING
+   SCROLLBAR — Minimal
    ============================================ */
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -269,7 +381,7 @@ html {
 
 ::-webkit-scrollbar-thumb {
   background: var(--color-text-dim);
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -277,10 +389,20 @@ html {
 }
 
 /* ============================================
-   SELECTION STYLING
+   SELECTION
    ============================================ */
 
 ::selection {
-  background-color: rgba(197, 165, 114, 0.25);
+  background-color: rgba(139, 45, 58, 0.3);
   color: var(--color-foreground);
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  .chapter-number {
+    font-size: 2.5rem;
+  }
 }
