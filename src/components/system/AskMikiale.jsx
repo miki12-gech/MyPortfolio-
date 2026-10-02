@@ -3,6 +3,28 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useChat } from '@ai-sdk/react';
 import { X, Send, Terminal, Loader2, Maximize2, Minimize2, Trash2 } from 'lucide-react';
 
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ position: 'fixed', bottom: 20, right: 20, background: 'red', color: 'white', padding: 20, zIndex: 9999 }}>
+          <h1>Something went wrong.</h1>
+          <pre>{this.state.error?.toString()}</pre>
+          <pre>{this.state.error?.stack}</pre>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 const SUGGESTED_QUESTIONS = {
   default: [
     "What has Mikiale built?",
@@ -27,7 +49,7 @@ const SUGGESTED_QUESTIONS = {
   ]
 };
 
-export default function AskMikiale() {
+function AskMikialeInner() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeContext, setActiveContext] = useState('default');
   const messagesEndRef = useRef(null);
@@ -205,12 +227,12 @@ export default function AskMikiale() {
             <form onSubmit={handleSubmit} className="p-3 border-t border-foreground/10 bg-bg-surface/30">
               <div className="relative flex items-end">
                 <textarea
-                  value={input}
+                  value={input || ''}
                   onChange={handleInputChange}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                       e.preventDefault();
-                      if (input.trim() && !isLoading) {
+                      if ((input || '').trim() && !isLoading) {
                         handleSubmit(e);
                       }
                     }
@@ -223,7 +245,7 @@ export default function AskMikiale() {
                 />
                 <button
                   type="submit"
-                  disabled={isLoading || !input.trim()}
+                  disabled={isLoading || !(input || '').trim()}
                   className="absolute right-2 bottom-2 p-1.5 text-text-dim hover:text-accent disabled:opacity-50 disabled:hover:text-text-dim transition-colors"
                   aria-label="Send message"
                 >
@@ -235,5 +257,13 @@ export default function AskMikiale() {
         )}
       </AnimatePresence>
     </>
+  );
+}
+
+export default function AskMikiale() {
+  return (
+    <ErrorBoundary>
+      <AskMikialeInner />
+    </ErrorBoundary>
   );
 }
