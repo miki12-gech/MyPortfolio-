@@ -17,6 +17,7 @@ import InfrastructureChapter from './components/chapters/InfrastructureChapter';
 import WorkChapter from './components/chapters/WorkChapter';
 import EngineerChapter from './components/chapters/EngineerChapter';
 import SystemCompleteChapter from './components/chapters/SystemCompleteChapter';
+import AskMikiale from './components/system/AskMikiale';
 
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
       <Navbar />
       <ChapterIndicator />
       <SystemPath />
+      
+      {/* Ask Mikiale AI Assistant */}
+      <AskMikiale />
 
       <main>
         {/* SIGNAL — The Hero */}

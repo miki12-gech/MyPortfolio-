@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^4.0.83",
+    "@ai-sdk/react": "^4.0.130",
+    "ai": "^7.0.127",
     "clsx": "^2.1.1",
     "framer-motion": "^13.0.0",
     "lucide-react": "^1.17.0",
@@ -31,6 +34,7 @@
     "globals": "^16.5.0",
     "postcss": "^8.5.26",
     "tailwindcss": "^4.3.3",
-    "vite": "^7.2.4"
+    "vite": "^7.2.4",
+    "vite-plugin-vercel": "^11.1.1"
   }
 }
