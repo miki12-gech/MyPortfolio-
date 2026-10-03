@@ -1,5 +1,5 @@
 import { streamText } from 'ai';
-import { openai } from '@ai-sdk/openai';
+import { groq } from '@ai-sdk/groq';
 import { getSystemKnowledgePrompt } from '../src/data/portfolioKnowledge.js';
 
 // Vercel Serverless Function Config
@@ -27,7 +27,7 @@ If appropriate, tailor your responses to acknowledge this context (e.g. "As you 
     }
 
     const result = await streamText({
-      model: openai('gpt-4o-mini'),
+      model: groq('llama-3.1-70b-versatile'),
       system: basePrompt + contextInstructions + `
 You are ASK MIKIALE, an AI portfolio assistant for Mikiale Getachew.
 Personality: Professional, concise, technical, friendly, calm, confident, honest.

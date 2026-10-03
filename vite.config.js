@@ -1,7 +1,7 @@
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import { streamText } from 'ai';
-import { openai } from '@ai-sdk/openai';
+import { groq } from '@ai-sdk/groq';
 import { getSystemKnowledgePrompt } from './src/data/portfolioKnowledge.js';
 
 // Custom plugin to handle Vercel Serverless Functions locally in Vite
@@ -27,7 +27,7 @@ If appropriate, tailor your responses to acknowledge this context.
             }
 
             // Fallback for local testing if API key is not configured
-            if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'your_openai_api_key_here' || process.env.OPENAI_API_KEY === '') {
+            if (!process.env.GROQ_API_KEY) {
               // Simulate a basic streaming response
               res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
               res.write('0:"[LOCAL MOCK] I am currently running in offline mock mode because the OPENAI_API_KEY is not set in the .env file. "\n');
@@ -42,7 +42,7 @@ If appropriate, tailor your responses to acknowledge this context.
             }
 
             const result = await streamText({
-              model: openai('gpt-4o-mini'),
+              model: groq('llama-3.1-70b-versatile'),
               system: basePrompt + contextInstructions + `
 You are ASK MIKIALE, an AI portfolio assistant for Mikiale Getachew.
 Personality: Professional, concise, technical, friendly, calm, confident, honest.
