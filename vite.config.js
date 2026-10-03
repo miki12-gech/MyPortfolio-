@@ -14,7 +14,22 @@ const vercelApiMock = () => ({
         req.on('data', chunk => { body += chunk.toString() });
         req.on('end', async () => {
           try {
-            const { messages, contextData } = JSON.parse(body);
+            const rawBody = JSON.parse(body);
+            const contextData = rawBody.contextData;
+            
+            // Normalize AI SDK v7 UIMessage format (parts) to standard format (content)
+            const messages = (rawBody.messages || []).map(m => {
+              if (m.content) return { role: m.role, content: m.content };
+              if (m.parts && Array.isArray(m.parts)) {
+                const textContent = m.parts
+                  .filter(p => p.type === 'text')
+                  .map(p => p.text)
+                  .join('');
+                return { role: m.role, content: textContent };
+              }
+              return { role: m.role, content: '' };
+            });
+            
             const basePrompt = getSystemKnowledgePrompt();
             
             let contextInstructions = '';
