@@ -42,7 +42,7 @@ If appropriate, tailor your responses to acknowledge this context.
             }
 
             const result = await streamText({
-              model: groq('llama-3.1-70b-versatile'),
+              model: groq('openai/gpt-oss-120b'),
               system: basePrompt + contextInstructions + `
 You are ASK MIKIALE, an AI portfolio assistant for Mikiale Getachew.
 Personality: Professional, concise, technical, friendly, calm, confident, honest.
@@ -53,11 +53,16 @@ Never invent information. If you don't know, say "I don't have verified informat
               temperature: 0.2,
             });
 
-            result.pipeDataStreamToResponse(res);
+            if (typeof result.pipeUIMessageStreamToResponse === 'function') {
+              result.pipeUIMessageStreamToResponse(res);
+            } else {
+              // Fallback for edge cases
+              res.end();
+            }
           } catch (error) {
             console.error('Local API Error:', error);
             res.statusCode = 500;
-            res.end(JSON.stringify({ error: 'SYSTEM CONNECTION UNAVAILABLE.' }));
+            res.end(JSON.stringify({ error: error.message || error.toString() || 'SYSTEM CONNECTION UNAVAILABLE.' }));
           }
         });
       } else {

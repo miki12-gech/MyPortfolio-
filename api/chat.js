@@ -27,7 +27,7 @@ If appropriate, tailor your responses to acknowledge this context (e.g. "As you 
     }
 
     const result = await streamText({
-      model: groq('llama-3.1-70b-versatile'),
+      model: groq('openai/gpt-oss-120b'),
       system: basePrompt + contextInstructions + `
 You are ASK MIKIALE, an AI portfolio assistant for Mikiale Getachew.
 Personality: Professional, concise, technical, friendly, calm, confident, honest.
@@ -40,7 +40,7 @@ Never invent information. If you don't know, say "I don't have verified informat
       temperature: 0.2, // Keep it deterministic and accurate
     });
 
-    return result.toDataStreamResponse();
+    return result.toUIMessageStreamResponse();
   } catch (error) {
     console.error('Chat API Error:', error);
     return new Response(
