@@ -7,6 +7,7 @@
  */
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { Sparkles } from 'lucide-react';
 import useReducedMotion from '../../hooks/useReducedMotion';
 import social from '../../data/social';
 
@@ -235,13 +236,20 @@ const SignalChapter = () => {
             transition={{ duration: 0.6, delay: 1.3 }}
             className="flex flex-wrap items-center justify-center gap-3"
           >
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('open-ask-mikiale'))}
+              className="px-6 py-2.5 bg-gradient-to-r from-accent via-accent-bright to-accent text-white text-xs font-mono tracking-wider uppercase font-semibold hover:shadow-[0_0_20px_rgba(166,53,69,0.6)] transition-all duration-300 shadow-[0_0_15px_rgba(139,45,58,0.4)] flex items-center gap-2 cursor-pointer hover:scale-105 active:scale-95"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-white animate-pulse" />
+              <span>Ask Mikiale AI</span>
+            </button>
             <a
               href="#work"
               onClick={(e) => {
                 e.preventDefault();
                 document.querySelector('#work')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="px-6 py-2.5 bg-accent text-foreground text-xs font-mono tracking-wider uppercase font-semibold hover:bg-accent-bright transition-all duration-300 shadow-[0_0_15px_rgba(139,45,58,0.25)]"
+              className="px-6 py-2.5 bg-bg-elevated border border-foreground/[0.15] text-foreground text-xs font-mono tracking-wider uppercase font-semibold hover:border-accent hover:text-white transition-all duration-300"
             >
               View Work
             </a>

@@ -5,6 +5,7 @@
  */
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Sparkles } from 'lucide-react';
 
 const navItems = [
   { name: 'System', href: '#interface', id: 'system' },
@@ -150,6 +151,22 @@ const Navbar = () => {
                 {currentChapter}
               </span>
             </div>
+
+            {/* Ask Mikiale AI Trigger Button */}
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('open-ask-mikiale'))}
+              className="ml-3 flex items-center gap-2 px-3 py-1.5 rounded bg-accent/25 hover:bg-accent border border-accent/60 text-foreground hover:text-white transition-all duration-200 text-xs font-mono tracking-wider font-semibold shadow-[0_0_15px_rgba(139,45,58,0.3)] hover:shadow-[0_0_20px_rgba(166,53,69,0.6)] cursor-pointer group hover:scale-105 active:scale-95"
+              aria-label="Open Ask Mikiale AI Assistant"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-bright opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-bright" />
+              </span>
+              <span>ASK MIKIALE</span>
+              <span className="text-[9px] px-1.5 py-0.5 rounded bg-accent/40 text-accent-bright font-bold uppercase group-hover:bg-white/20 group-hover:text-white transition-colors">
+                AI
+              </span>
+            </button>
           </div>
 
           {/* Mobile Hamburger Button */}
@@ -183,7 +200,7 @@ const Navbar = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 bg-bg-deep/98 backdrop-blur-xl flex flex-col items-center justify-center"
+            className="fixed inset-0 z-40 bg-bg-deep/98 backdrop-blur-xl flex flex-col items-center justify-center gap-8"
           >
             {/* System Status in Mobile Menu */}
             <div className="absolute top-20 flex items-center gap-2">
@@ -193,7 +210,7 @@ const Navbar = () => {
               </span>
             </div>
 
-            <nav className="flex flex-col items-center gap-7" role="navigation" aria-label="Mobile navigation">
+            <nav className="flex flex-col items-center gap-6" role="navigation" aria-label="Mobile navigation">
               {navItems.map((item, i) => (
                 <motion.a
                   key={item.name}
@@ -213,6 +230,21 @@ const Navbar = () => {
                 </motion.a>
               ))}
             </nav>
+
+            {/* Mobile Ask Mikiale AI Button */}
+            <motion.button
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25, duration: 0.25 }}
+              onClick={() => {
+                setMobileOpen(false);
+                window.dispatchEvent(new CustomEvent('open-ask-mikiale'));
+              }}
+              className="flex items-center gap-2.5 px-6 py-3 rounded-full bg-accent hover:bg-accent-bright text-white font-mono text-xs tracking-widest font-semibold shadow-[0_0_25px_rgba(139,45,58,0.5)] border border-accent-bright/50 transition-all cursor-pointer"
+            >
+              <Sparkles className="w-4 h-4 text-white" />
+              <span>ASK MIKIALE AI</span>
+            </motion.button>
           </motion.div>
         )}
       </AnimatePresence>

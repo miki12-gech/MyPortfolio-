@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useChat } from '@ai-sdk/react';
-import { X, Send, Terminal, Loader2, Maximize2, Minimize2, Trash2 } from 'lucide-react';
+import { X, Send, Terminal, Loader2, Maximize2, Minimize2, Trash2, Sparkles } from 'lucide-react';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -110,6 +110,12 @@ function AskMikialeInner() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isOpen]);
 
+  useEffect(() => {
+    const handleOpen = () => setIsOpen(true);
+    window.addEventListener('open-ask-mikiale', handleOpen);
+    return () => window.removeEventListener('open-ask-mikiale', handleOpen);
+  }, []);
+
   const handleSuggestedClick = (q) => {
     sendMessage({ content: q, role: 'user' });
   };
@@ -128,22 +134,47 @@ function AskMikialeInner() {
       {/* Floating Action Button (Closed State) */}
       <AnimatePresence>
         {!isOpen && (
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            onClick={() => setIsOpen(true)}
-            className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-2.5 bg-bg-elevated/90 backdrop-blur-md border border-accent/40 rounded-sm shadow-[0_0_20px_rgba(139,45,58,0.15)] group hover:border-accent transition-colors"
-            aria-label="Open Ask Mikiale Assistant"
+            transition={{ duration: 0.3 }}
+            className="fixed bottom-6 right-6 z-50 group"
           >
-            <div className="relative flex items-center justify-center w-2 h-2">
-              <span className="absolute inset-0 bg-accent rounded-full animate-ping opacity-75" />
-              <span className="relative w-1.5 h-1.5 bg-accent rounded-full" />
-            </div>
-            <span className="font-mono text-[0.625rem] tracking-[0.2em] font-semibold text-foreground uppercase group-hover:text-accent-bright transition-colors">
-              ASK MIKIALE
-            </span>
-          </motion.button>
+            {/* Ambient Pulsing Glow Halo */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-accent via-accent-bright to-accent rounded-full blur-md opacity-75 group-hover:opacity-100 transition-opacity duration-500 animate-pulse pointer-events-none" />
+
+            <button
+              onClick={() => setIsOpen(true)}
+              className="relative flex items-center gap-3.5 px-5 py-3 sm:px-6 sm:py-3.5 bg-bg-deep/95 hover:bg-bg-elevated border-2 border-accent hover:border-accent-bright rounded-full shadow-[0_0_25px_rgba(139,45,58,0.45),0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+              aria-label="Open Ask Mikiale Assistant"
+            >
+              {/* Bot/Sparkle Icon with Ping Indicator */}
+              <div className="relative flex items-center justify-center w-9 h-9 rounded-full bg-accent/20 border border-accent/60 text-accent-bright shrink-0">
+                <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-bright opacity-75" />
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-accent-bright" />
+                </span>
+                <Sparkles className="w-4 h-4 text-accent-bright" />
+              </div>
+
+              {/* Text Information Block */}
+              <div className="flex flex-col text-left">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-xs sm:text-sm font-bold tracking-widest text-foreground group-hover:text-white uppercase transition-colors">
+                    ASK MIKIALE
+                  </span>
+                  <span className="px-1.5 py-0.5 bg-accent/30 border border-accent/60 rounded text-[9px] font-mono font-bold text-accent-bright tracking-wider uppercase">
+                    AI
+                  </span>
+                </div>
+                <span className="font-mono text-[10px] text-text-secondary tracking-wider flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse" />
+                  Online • Ask anything
+                </span>
+              </div>
+            </button>
+          </motion.div>
         )}
       </AnimatePresence>
 
