@@ -8,13 +8,9 @@ import Navbar from './components/layout/Navbar';
 import ChapterIndicator from './components/layout/ChapterIndicator';
 import SystemPath from './components/system/SystemPath';
 import SignalChapter from './components/chapters/SignalChapter';
-import InterfaceChapter from './components/chapters/InterfaceChapter';
-import EngineChapter from './components/chapters/EngineChapter';
-import DataChapter from './components/chapters/DataChapter';
-import IntelligenceChapter from './components/chapters/IntelligenceChapter';
-import SecurityChapter from './components/chapters/SecurityChapter';
-import InfrastructureChapter from './components/chapters/InfrastructureChapter';
-import WorkChapter from './components/chapters/WorkChapter';
+import CoreArchitectureSection from './components/system/CoreArchitectureSection';
+import IntelligenceSecuritySection from './components/system/IntelligenceSecuritySection';
+import AdditionalProjectsSection from './components/chapters/AdditionalProjectsSection';
 import EngineerChapter from './components/chapters/EngineerChapter';
 import SystemCompleteChapter from './components/chapters/SystemCompleteChapter';
 import AskMikiale from './components/system/AskMikiale';
@@ -34,26 +30,14 @@ function App() {
         {/* SIGNAL — The Hero */}
         <SignalChapter />
 
-        {/* 01 / INTERFACE */}
-        <InterfaceChapter />
+        {/* 01-03 / CORE ARCHITECTURE + HMS PRODUCTION PROOF */}
+        <CoreArchitectureSection />
 
-        {/* 02 / ENGINE */}
-        <EngineChapter />
+        {/* 04-06 / INTELLIGENCE & SECURITY + ANDROID SECURITY & DOC FORGE PROOFS */}
+        <IntelligenceSecuritySection />
 
-        {/* 03 / DATA */}
-        <DataChapter />
-
-        {/* 04 / INTELLIGENCE */}
-        <IntelligenceChapter />
-
-        {/* 05 / SECURITY */}
-        <SecurityChapter />
-
-        {/* 06 / INFRASTRUCTURE */}
-        <InfrastructureChapter />
-
-        {/* 07 / THE WORK */}
-        <WorkChapter />
+        {/* 07 / ADDITIONAL SYSTEMS */}
+        <AdditionalProjectsSection />
 
         {/* 08 / THE ENGINEER */}
         <EngineerChapter />

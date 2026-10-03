@@ -111,10 +111,15 @@ function AskMikialeInner() {
   }, [isOpen]);
 
   useEffect(() => {
-    const handleOpen = () => setIsOpen(true);
+    const handleOpen = (e) => {
+      setIsOpen(true);
+      if (e?.detail?.question) {
+        sendMessage({ content: e.detail.question, role: 'user' });
+      }
+    };
     window.addEventListener('open-ask-mikiale', handleOpen);
     return () => window.removeEventListener('open-ask-mikiale', handleOpen);
-  }, []);
+  }, [sendMessage]);
 
   const handleSuggestedClick = (q) => {
     sendMessage({ content: q, role: 'user' });
