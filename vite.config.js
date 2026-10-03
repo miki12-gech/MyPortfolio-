@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import { streamText } from 'ai';
 import { openai } from '@ai-sdk/openai';
@@ -53,6 +53,13 @@ Never invent information. If you don't know, say "I don't have verified informat
 });
 
 // https://vite.dev/config/
-export default defineConfig({
-  plugins: [react(), vercelApiMock()],
+export default defineConfig(({ mode }) => {
+  // Load env file based on `mode` in the current working directory.
+  // Set the third parameter to '' to load all env regardless of the `VITE_` prefix.
+  const env = loadEnv(mode, process.cwd(), '');
+  process.env = { ...process.env, ...env };
+
+  return {
+    plugins: [react(), vercelApiMock()],
+  };
 })
