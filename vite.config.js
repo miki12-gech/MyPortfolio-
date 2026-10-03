@@ -26,6 +26,21 @@ If appropriate, tailor your responses to acknowledge this context.
 `;
             }
 
+            // Fallback for local testing if API key is not configured
+            if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'your_openai_api_key_here' || process.env.OPENAI_API_KEY === '') {
+              // Simulate a basic streaming response
+              res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+              res.write('0:"[LOCAL MOCK] I am currently running in offline mock mode because the OPENAI_API_KEY is not set in the .env file. "\n');
+              setTimeout(() => {
+                res.write('0:"However, my UI and streaming capabilities are fully functional! "\n');
+                setTimeout(() => {
+                  res.write('0:"Once you add a valid OpenAI key, I will connect to the real intelligence."\n');
+                  res.end();
+                }, 500);
+              }, 500);
+              return;
+            }
+
             const result = await streamText({
               model: openai('gpt-4o-mini'),
               system: basePrompt + contextInstructions + `
