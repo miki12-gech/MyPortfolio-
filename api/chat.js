@@ -27,7 +27,7 @@ If appropriate, tailor your responses to acknowledge this context (e.g. "As you 
     }
 
     const result = await streamText({
-      model: groq('openai/gpt-oss-120b'),
+      model: groq('qwen/qwen3.8-27b'),
       system: basePrompt + contextInstructions + `
 You are ASK MIKIALE, an AI portfolio assistant for Mikiale Getachew.
 Personality: Professional, concise, technical, friendly, calm, confident, honest.

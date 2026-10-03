@@ -49,17 +49,33 @@ const SUGGESTED_QUESTIONS = {
   ]
 };
 
+// Helper to extract text from AI SDK v7 UIMessage parts
+function getMessageText(message) {
+  // v7 format: message.parts is an array of { type, text } objects
+  if (message.parts && Array.isArray(message.parts)) {
+    return message.parts
+      .filter(p => p.type === 'text')
+      .map(p => p.text)
+      .join('');
+  }
+  // Fallback for v6 format or user messages
+  if (typeof message.content === 'string') return message.content;
+  return '';
+}
+
 function AskMikialeInner() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeContext, setActiveContext] = useState('default');
   const [input, setInput] = useState('');
   const messagesEndRef = useRef(null);
 
-  const { messages, sendMessage, isLoading, error, setMessages } = useChat({
+  const { messages, sendMessage, status, error, setMessages } = useChat({
     api: '/api/chat',
     body: { contextData: { section: activeContext } },
     onError: (err) => console.error("Chat Error:", err)
   });
+
+  const isLoading = status === 'streaming' || status === 'submitted';
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -196,12 +212,12 @@ function AskMikialeInner() {
                       <span className="font-mono text-[0.55rem] tracking-widest text-text-dim uppercase mb-1 px-1">
                         {m.role === 'user' ? 'USER' : 'SYSTEM'}
                       </span>
-                      <div className={`px-3 py-2 rounded-sm max-w-[85%] text-sm font-sans leading-relaxed ${
+                      <div className={`px-3 py-2 rounded-sm max-w-[85%] text-sm font-sans leading-relaxed whitespace-pre-wrap ${
                         m.role === 'user' 
                           ? 'bg-foreground/10 text-foreground border border-foreground/10' 
                           : 'bg-accent/10 border border-accent/20 text-foreground'
                       }`}>
-                        {m.content}
+                        {getMessageText(m)}
                       </div>
                     </div>
                   ))}
