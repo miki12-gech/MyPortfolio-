@@ -52,9 +52,10 @@ const SUGGESTED_QUESTIONS = {
 function AskMikialeInner() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeContext, setActiveContext] = useState('default');
+  const [input, setInput] = useState('');
   const messagesEndRef = useRef(null);
 
-  const { messages, input, handleInputChange, handleSubmit, isLoading, error, setMessages, append } = useChat({
+  const { messages, sendMessage, isLoading, error, setMessages } = useChat({
     api: '/api/chat',
     body: { contextData: { section: activeContext } },
     onError: (err) => console.error("Chat Error:", err)
@@ -94,7 +95,14 @@ function AskMikialeInner() {
   }, [isOpen]);
 
   const handleSuggestedClick = (q) => {
-    append({ role: 'user', content: q });
+    sendMessage({ content: q, role: 'user' });
+  };
+
+  const handleSubmit = (e) => {
+    e?.preventDefault();
+    if (!input.trim() || isLoading) return;
+    sendMessage({ content: input, role: 'user' });
+    setInput('');
   };
 
   const clearChat = () => setMessages([]);
@@ -142,7 +150,7 @@ function AskMikialeInner() {
                 </span>
               </div>
               <div className="flex items-center gap-2 text-text-dim">
-                {messages.length > 0 && (
+                {messages?.length > 0 && (
                   <button onClick={clearChat} className="p-1 hover:text-foreground transition-colors" aria-label="Clear chat" title="Clear Chat">
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
@@ -155,7 +163,7 @@ function AskMikialeInner() {
 
             {/* Messages Area */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
-              {messages.length === 0 ? (
+              {!messages || messages.length === 0 ? (
                 <div className="h-full flex flex-col justify-center">
                   <div className="mb-6 space-y-2">
                     <p className="font-sans text-sm text-foreground">
@@ -212,7 +220,7 @@ function AskMikialeInner() {
                     <div className="flex flex-col items-start mt-2">
                       <div className="px-3 py-2 rounded-sm bg-red-900/20 border border-red-500/30 text-red-400 text-xs font-mono">
                         SYSTEM CONNECTION UNAVAILABLE.
-                        <button onClick={() => append({ role: 'user', content: "Retry" })} className="ml-2 underline hover:text-red-300">
+                        <button onClick={() => sendMessage({ role: 'user', content: "Retry" })} className="ml-2 underline hover:text-red-300">
                           [Retry]
                         </button>
                       </div>
@@ -227,14 +235,12 @@ function AskMikialeInner() {
             <form onSubmit={handleSubmit} className="p-3 border-t border-foreground/10 bg-bg-surface/30">
               <div className="relative flex items-end">
                 <textarea
-                  value={input || ''}
-                  onChange={handleInputChange}
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                       e.preventDefault();
-                      if ((input || '').trim() && !isLoading) {
-                        handleSubmit(e);
-                      }
+                      handleSubmit(e);
                     }
                   }}
                   placeholder="Ask anything..."
@@ -245,7 +251,7 @@ function AskMikialeInner() {
                 />
                 <button
                   type="submit"
-                  disabled={isLoading || !(input || '').trim()}
+                  disabled={isLoading || !input.trim()}
                   className="absolute right-2 bottom-2 p-1.5 text-text-dim hover:text-accent disabled:opacity-50 disabled:hover:text-text-dim transition-colors"
                   aria-label="Send message"
                 >
